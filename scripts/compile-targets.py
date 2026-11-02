@@ -27,7 +27,6 @@ from codex_support import (
     sync_payloads,
 )
 from skill_factory import validate_skill_text
-from library_release import check_core
 from plugin_version import plugin_content_version, update_plugin_cachebuster
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
@@ -115,7 +114,6 @@ def compile_codex_skills(*, check: bool) -> list[str]:
         in {
             "ai-skill-bootstrap",
             "conversation-archive",
-            "cross-project-skill-governance",
             "project-knowledge-evolution",
             "flow",
             "skill-factory",
@@ -144,14 +142,8 @@ def compile_codex_skills(*, check: bool) -> list[str]:
             output = framework_destination / source.relative_to(expected_root)
             if not output.exists() or output.read_bytes() != source.read_bytes():
                 drifted.append(str(output))
-        source = SKILL_ROOT / "scripts/project_governance.py"
-        output = framework_destination / "scripts/project_governance.py"
-        if not output.exists() or output.read_bytes() != source.read_bytes():
-            drifted.append(str(output))
     else:
         deploy_framework(SKILL_ROOT, framework_destination)
-        source = SKILL_ROOT / "scripts/project_governance.py"
-        (framework_destination / "scripts/project_governance.py").write_bytes(source.read_bytes())
         print(f"[OK] Codex plugin framework -> {framework_destination.relative_to(SKILL_ROOT)}")
     manifest = PLUGIN_ROOT / ".codex-plugin/plugin.json"
     if check:
@@ -171,7 +163,6 @@ def main() -> None:
     if not SOURCE.exists():
         sys.exit(f"[ERROR] 找不到源文件 {SOURCE}")
     body = SOURCE.read_text(encoding="utf-8")
-    check_core(SKILL_ROOT)
 
     contract_errors = [
         f"{path}: {error}"

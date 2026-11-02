@@ -1,6 +1,6 @@
 {
   "name": "ai-skill-governance",
-  "version": "1.0.0+codex.d6d14fba412b30b3",
+  "version": "1.0.0+codex.acd9ca8e8144d127",
   "description": "Connect repositories, audit software security, maintainability and Agent configuration, diagnose regressions, archive recoverable conversation summaries, evolve verified knowledge, and govern approved rules across projects in Codex.",
   "author": {
     "name": "ai-skill"

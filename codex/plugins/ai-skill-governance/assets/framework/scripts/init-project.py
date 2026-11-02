@@ -337,10 +337,9 @@ def main():
             print(f"  + workflow integration policy ({workflow_mode}: {detail})")
 
     print(f"\n  Done! Your project is now ai-skill enabled.")
-    print(f"  Project-local Skill setup is complete; central dashboard registration is separate.\n")
+    print(f"  Project-local Skill setup is complete.\n")
     print(f"  How to use:")
     print(f"  - Codex: AGENTS.md auto-loads; .agents/skills load by task match")
-    print(f"  - Central dashboard: add this exact project path in the central dashboard, then choose its cadence")
     print(f"  - Claude Code / Cursor / Windsurf / Kiro: auto-loaded on open")
     print(f"  - Other AI tools: tell it 'read RULES.md and follow it'")
     print(f"  - Chat with any AI: paste or attach RULES.md content\n")

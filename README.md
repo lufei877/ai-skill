@@ -14,7 +14,6 @@
 | **多 IDE** | 一键初始化，所有 IDE 看到一致的规则 |
 | **项目隔离** | 分组选装，托管摘要保护项目修改，同名冲突保留整个 Skill 包 |
 | **Codex 原生** | `AGENTS.md` + `.agents/skills` 渐进加载 + 可安装 plugin |
-| **跨项目治理** | 定期审计注册项目，生成候选并下发已批准中央规则 |
 | **会话恢复** | 按项目选择手动、每日或每周保存脱敏纪要，原始 transcript 默认不入项目 |
 
 ## 1 分钟上手
@@ -101,19 +100,7 @@ python scripts/compile-targets.py
 
 # 检查载体是否漂移（改完规则后在本地运行）
 python scripts/compile-targets.py --check
-
-# 审计本机上的注册项目并生成变化报告（不修改项目；状态按机器分开保存）
-python scripts/project_governance.py audit
-
-# 只读预览本机项目与中央托管区的差异（不下发、不看 sync_approved）
-python scripts/project_governance.py preview
-
-# 预览/执行已批准中央规则的下发
-python scripts/project_governance.py sync --dry-run
-python scripts/project_governance.py sync
 ```
-
-多台机器共用本库时的状态与登记规则见 [多机器治理](docs/multi-machine-governance.md)。
 
 ## 软件与 Agent 体检
 
@@ -178,15 +165,8 @@ AI 在工作中遇到以下情况会触发进化判断：
 - 产品/架构决定 → `decisions.md`
 - 单项目完整证据 → 生成中央候选
 - 多项目重复验证 → 提高候选置信度
-- 用户批准并进入中央单一事实源 → 自动下发到允许同步的注册项目
 
 普通文件变化不会自动生成知识。跨会话定时归纳使用 Codex automation；单任务收尾由 `$project-knowledge-evolution` 判断，有持久价值才写入。
-
-中央版本增加防退化门禁：`scripts/library_release.py` 保存完整候选快照，绑定核心行为评审与真实执行证据，支持导出恢复及选择先前已验证版本。`project_governance.py sync`（含预览）只接受与已验证稳定版一致的源码；首次没有行为证据时会拒绝下发。结构检查和单元测试不能把候选自动变成稳定版。详见 [中央版本与防退化](docs/library-release.md)。本地编译和显式初始化用于开发/接入，不能作为绕过稳定版同步门禁的办法。
-
-注册项目位于 `governance/projects.json`。定时审计只读取注册路径；候选写入 `governance/candidates/`，不会未经批准直接发布。
-
-项目进化看板：在中央库运行 `python scripts/governance_dashboard.py`，打开 `http://127.0.0.1:8768`，自行选择重点项目与每日／每两天／每周的基础频率。自动调频依据实际开发内容变化，连续活跃升每日、完整观察两周无开发变化降每周；采样缺失和知识整理日志不会造成错误降频或自我升频。外部日程由用户配置，`project_cadence.py tick` 提供到期清单，`claim/complete` 防止重复领取并记录真实执行回执。详见 [调频规则与调度器接入](docs/project-cadence.md)。
 
 首次用 `$ai-skill-bootstrap` 接入项目时，只需选择会话归档频率，写入 `.ai-skill/project/conversation-archive.json`；重复接入保留原选择。普通 Skill 接入不询问或启用工作流，已有工作流配置保持不变。明确需要工作流时再使用 `$flow`，按需确认系统身份和能力模式；详细契约集中在该入口。项目内只保存结构化脱敏纪要和索引，默认写入 `.ai-skill/project/conversations/`，原始 Codex JSONL 需另行备份到私有外部目录。
 

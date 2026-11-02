@@ -55,18 +55,6 @@ python /path/to/ai-skill/scripts/init-project.py --path 你的项目路径 --ide
 
 接入完成后，新 Codex 任务会自动读取 `AGENTS.md`，并按任务匹配 `.agents/skills/`。当前任务若在接入前已启动，需要显式读取新入口一次。
 
-### 跨项目定期治理
-
-在 `governance/projects.json` 注册自己的软件项目后，可以运行：
-
-```powershell
-python /path/to/ai-skill/scripts/project_governance.py audit
-python /path/to/ai-skill/scripts/project_governance.py sync --dry-run
-python /path/to/ai-skill/scripts/project_governance.py sync
-```
-
-`audit` 只审计本机上的项目，状态写入 `governance/state/<机器>.json`，其他机器的项目标为 `not-local` 并原样保留（见 [多机器治理](docs/multi-machine-governance.md)）。只记录注册知识文件的变化和中央托管区漂移。单项目完整证据即可形成候选；第二个项目的独立证据只提高置信度。候选经用户批准并写入中央 canonical 文件后，`sync` 才会下发，且只处理 `sync_approved: true` 的项目。
-
 ### 项目会话纪要
 
 首次接入项目时，`$ai-skill-bootstrap` 会先询问一次会话归档频率：关闭、手动、每日或每周，然后自动完成配置。你不需要手工编辑 JSON，也不需要运行 PowerShell。重复接入时会保留原选择。

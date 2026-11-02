@@ -1,7 +1,7 @@
 # ai-skill 索引
 
 > 由 `python scripts/sync.py` 自动生成
-> 共 30 个中央原生 Skill；不含 core 规则、生成副本和独立安装的第三方 Skill。
+> 共 29 个中央原生 Skill；不含 core 规则、生成副本和独立安装的第三方 Skill。
 
 中央维护者：ai-skill。生成位置：`.agents/skills/<name>/`；具体来源与分组如下。
 
@@ -13,7 +13,7 @@
 
 需求卡存需求和验收证据，不计入原生 Skill 数量；按卡确认项目边界与待确认事项，再生成测试、编写实现。
 
-## 基础工程与治理 (core) — 30 个
+## 基础工程与治理 (core) — 29 个
 
 | Skill | 类型 | 权威源码 |
 | --- | --- | --- |
@@ -28,7 +28,6 @@
 | `code-review` | guidance | [skills/quality/code-review.md](skills/quality/code-review.md) |
 | `complexity-review` | guidance | [skills/quality/complexity-review.md](skills/quality/complexity-review.md) |
 | `conversation-archive` | native | [codex/skills/conversation-archive/SKILL.md](codex/skills/conversation-archive/SKILL.md) |
-| `cross-project-skill-governance` | native | [codex/skills/cross-project-skill-governance/SKILL.md](codex/skills/cross-project-skill-governance/SKILL.md) |
 | `desktop-operations-architecture` | guidance | [skills/architecture/desktop-operations-architecture.md](skills/architecture/desktop-operations-architecture.md) |
 | `desktop-release` | native | [codex/skills/desktop-release/SKILL.md](codex/skills/desktop-release/SKILL.md) |
 | `engineering-decision-boundaries` | guidance | [skills/foundations/engineering-decision-boundaries.md](skills/foundations/engineering-decision-boundaries.md) |

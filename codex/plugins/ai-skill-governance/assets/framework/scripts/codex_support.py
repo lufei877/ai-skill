@@ -359,11 +359,10 @@ def framework_files(skill_root: Path) -> list[Path]:
             and is_distributable_path(path.relative_to(skill_root))
         )
     for relative in (
-        "scripts/skill_factory.py", "scripts/codex_support.py", "scripts/library_release.py",
+        "scripts/skill_factory.py", "scripts/codex_support.py",
         "scripts/init-project.py",
         "docs/skill-model-evaluation.md", "evals/model-task-cases.json",
-        "docs/library-release.md", "evals/core-behavior-cases.json",
-        "docs/project-cadence.md",
+        "evals/core-behavior-cases.json",
     ):
         source = skill_root / relative
         if source.exists():

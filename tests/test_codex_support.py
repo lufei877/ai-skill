@@ -458,7 +458,6 @@ class CodexSupportTests(unittest.TestCase):
             {
                 "ai-skill-bootstrap",
                 "conversation-archive",
-                "cross-project-skill-governance",
                 "project-knowledge-evolution",
                 "flow",
                 "skill-factory",
