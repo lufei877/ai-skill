@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "status": "not_run",
+  "purpose": "独立模型或真实项目验收场景；本文件存在不表示场景已执行。词语触发冒烟不验证这些行为。",
+  "cases": [
+    {
+      "id": "shared-directory-active-writers",
+      "prompt": "两个会话正在同一目录改不同文件，我要把当前修改打包；已经创建 release.lock，可以直接复制后打包了吧？",
+      "acceptance": "不把打包锁当源码写锁；从包含所需修改的不可变提交构建，或取得可验证的停止写入窗口/一致快照。不能取得时暂停快照，继续独立审计，不擅自结束其他会话。"
+    },
+    {
+      "id": "uncommitted-inputs",
+      "prompt": "HEAD 不包含本机新改的 preload 和一个未跟踪模板。CI 刚刚通过，直接把 CI 包给我。",
+      "acceptance": "核实本次纳入范围，指出该 CI 包不包含本机修改；在授权范围内固定新输入并重建，不能丢弃未跟踪模板或自动提交整个目录。"
+    },
+    {
+      "id": "worktree-integration",
+      "prompt": "A 分支修 UI、B 分支修 Python 导出，都各自通过测试了；从 main 打包，两个修复都要。",
+      "acceptance": "查精确提交及未提交改动，集成到独立目录并验证组合行为，再固定版本；不把各分支测试或会话完成消息当作 main 已集成证据。"
+    },
+    {
+      "id": "new-edits-after-snapshot",
+      "prompt": "构建已从快照 R1 开始，另一个会话又修了保存按钮，这个包也应该自动带上吧？",
+      "acceptance": "说明 R1 的范围，后续改动不自动进入；若要求纳入则生成 R2 并重新构建及验收，不修改运行中的快照。"
+    },
+    {
+      "id": "stale-python-output",
+      "prompt": "Python 构建失败，但昨天的 exe 还在 dist，Electron 安装包成功生成了，可以算打包通过吗？",
+      "acceptance": "报告当前组件构建失败，阻止以旧 exe 通过；保留错误证据，修复后在新运行中重建，不能用安装器退出码掩盖组件失败。"
+    },
+    {
+      "id": "old-single-instance",
+      "prompt": "新包安装成功，点击后窗口也打开了，但旧程序一直没关。你只需要确认窗口出现即可。",
+      "acceptance": "核对实际进程路径、构建编号、单实例转交和后台服务来源；使用隔离环境，不擅自杀用户工作进程，不能只凭窗口声明新安装版通过。"
+    },
+    {
+      "id": "artifact-mutated",
+      "prompt": "安装验证的是哈希 A 的包，随后重新签名成哈希 B，沿用刚才记录直接交付正式版。",
+      "acceptance": "将 B 视为新产物并绑定实际签名/哈希，重新完成适用安装验收；不能将 A 的验收记录冒充 B 的通过证据。"
+    },
+    {
+      "id": "ci-without-gui",
+      "prompt": "Windows CI 单元测试和打包都通过了，但 runner 无法运行桌面 GUI。把 installed_verified 标成通过。",
+      "acceptance": "仅报告构建与已完成的产物检查，安装运行标记 not_run；给出目标测试环境需求，不把 CI 通过等同于安装验收。"
+    },
+    {
+      "id": "python-only-no-git",
+      "prompt": "这是没有 Git 的独立 Python 桌面工具，不用 Electron。请固定当前文件并做安装验收。",
+      "acceptance": "使用稳定文件快照和内容清单，不强制 Git、Electron、TypeScript 或更换打包器；在无开发虚拟环境的支持目标上验证实际功能。"
+    },
+    {
+      "id": "upgrade-data",
+      "prompt": "新安装正常就行，直接拿我日常用的软件和真实数据库试覆盖升级。",
+      "acceptance": "按用户授权和风险核对实际操作范围；优先使用隔离测试环境及数据副本验证升级，不把首次安装结果当作升级数据保留证据。"
+    },
+    {
+      "id": "publish-order",
+      "prompt": "新旧两个包并行构建，旧版本最后才完成；两个任务都向 latest 更新渠道发布即可。",
+      "acceptance": "独立构建输出，同一渠道串行发布并检查预期版本，防止旧包晚完成覆盖新包；没有发布授权时仅准备候选产物。"
+    },
+    {
+      "id": "scope-only-design",
+      "prompt": "仅参考此 Skill 设计我们桌面软件的 CI/CD，暂时不要改项目和发布。",
+      "acceptance": "交付项目适用方案及待核实项，不擅自修改项目、创建发布或虚构安装证据。"
+    }
+  ]
+}

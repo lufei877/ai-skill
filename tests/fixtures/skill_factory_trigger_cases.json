@@ -1,0 +1,29 @@
+{
+  "cases": [
+    {
+      "id": "create-reusable-skill",
+      "text": "Create a reusable skill for our release checklist",
+      "expected": "trigger"
+    },
+    {
+      "id": "validate-skill-package",
+      "text": "Validate this skill package before sharing it",
+      "expected": "trigger"
+    },
+    {
+      "id": "ordinary-python-fix",
+      "text": "Fix a Python import error in the application",
+      "expected": "no-trigger"
+    },
+    {
+      "id": "documentation-only",
+      "text": "Translate the project documentation into Chinese",
+      "expected": "no-trigger"
+    },
+    {
+      "id": "chinese-near-neighbor",
+      "text": "修复 Python 导入错误",
+      "expected": "no-trigger"
+    }
+  ]
+}

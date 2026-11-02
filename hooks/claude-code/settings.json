@@ -1,0 +1,36 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/settings-schema.json",
+  "_comment": "将此文件的内容合并到项目的 .claude/settings.json 中以启用 ai-skill 钩子",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[ai-skill] 检查文件分区：确认目标文件不在冻结区'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[ai-skill] 改动完成，请执行自检清单'"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Read(**/ai-skill/**)",
+      "Read(**/.ai-skill/**)",
+      "Glob(**/ai-skill/**)",
+      "Grep(**/ai-skill/**)"
+    ]
+  }
+}

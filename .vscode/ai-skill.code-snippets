@@ -1,0 +1,62 @@
+{
+  "AI Skill: New Pitfall": {
+    "prefix": "pit",
+    "body": [
+      "### PIT-${1:编号}: ${2:标题}",
+      "",
+      "**现象**：${3:描述问题现象}",
+      "**原因**：${4:根因分析}",
+      "**解决**：${5:修复方式}",
+      "**日期**：${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}"
+    ],
+    "description": "新增一条踩坑记录"
+  },
+  "AI Skill: New Recipe": {
+    "prefix": "recipe",
+    "body": [
+      "### RECIPE-${1:编号}: ${2:标题}",
+      "",
+      "**场景**：${3:什么时候用}",
+      "**步骤**：",
+      "1. ${4:步骤1}",
+      "2. ${5:步骤2}",
+      "3. ${6:步骤3}",
+      "**注意**：${7:注意事项}"
+    ],
+    "description": "新增一条操作配方"
+  },
+  "AI Skill: New Skill": {
+    "prefix": "skill",
+    "body": [
+      "---",
+      "id: ${1:skill-id}",
+      "title: ${2:Skill 标题}",
+      "category: ${3|foundations,quality,architecture,business,deployment,knowledge|}",
+      "trigger: ${4:触发关键词}",
+      "priority: ${5|high,critical,medium,low|}",
+      "auto_load: false",
+      "version: 1.0",
+      "---",
+      "",
+      "# ${2}",
+      "",
+      "## 什么时候读",
+      "${6:一句话描述}",
+      "",
+      "## 规则",
+      "1. ${7:规则一}",
+      "2. ${8:规则二}",
+      "",
+      "## 正例",
+      "```",
+      "${9:正确做法}",
+      "```",
+      "",
+      "## 反例",
+      "```",
+      "${10:错误做法}",
+      "```"
+    ],
+    "description": "新增一个 Skill 文件"
+  }
+}

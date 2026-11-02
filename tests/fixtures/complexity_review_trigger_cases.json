@@ -1,0 +1,29 @@
+{
+  "cases": [
+    {
+      "id": "chinese-explicit-review",
+      "text": "检查这次改动是否过度设计，是否有不必要依赖",
+      "expected": "trigger"
+    },
+    {
+      "id": "english-explicit-review",
+      "text": "Run a complexity review for overengineering in this change",
+      "expected": "trigger"
+    },
+    {
+      "id": "ordinary-correctness-review",
+      "text": "审查登录错误处理的正确性和安全性",
+      "expected": "no-trigger"
+    },
+    {
+      "id": "ordinary-complex-implementation",
+      "text": "实现这个复杂的缓存迁移任务并运行测试",
+      "expected": "no-trigger"
+    },
+    {
+      "id": "large-change-review",
+      "text": "这个改动文件很多，做一次普通代码审查",
+      "expected": "no-trigger"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+id: learn-from-mistakes
+name: 从错误中学习
+trigger: 任务完成后，如果过程中遇到了意外问题并解决
+action: |
+  1. 判断问题是否有通用价值
+  2. 有 → 追加到 pitfalls.md（通用）或项目 pitfalls（项目级）
+  3. 如果发现了可复用的解决步骤 → 追加到 recipes.md
+  4. 记录进化日志
+evidence: |
+  第五原则"问题即知识"。每个踩过的坑如果不记录，
+  下次同样的 AI 还会踩同样的坑。
+examples:
+  - 解决了 ESM/CJS 兼容问题 → 记到 pitfalls
+  - 摸索出了部署到 Vercel 的标准步骤 → 记到 recipes

@@ -1,0 +1,16 @@
+{
+  "cases": [
+    {"id": "electron-package", "text": "帮我打包 Electron 桌面软件，验收安装包。", "expected": "trigger"},
+    {"id": "python-package", "text": "Python 桌面软件打包后启动不了，检查安装包。", "expected": "trigger"},
+    {"id": "multi-session", "text": "多会话改动集成后固定源码快照再打包。", "expected": "trigger"},
+    {"id": "version-mismatch", "text": "安装包版本不一致，本机修改没有进入包。", "expected": "trigger"},
+    {"id": "desktop-ci", "text": "Set up desktop packaging CI/CD and installed-app verification for Electron.", "expected": "trigger"},
+    {"id": "python-ci", "text": "Build CI/CD for Python desktop packaging with installed-app verification.", "expected": "trigger"},
+    {"id": "button-style", "text": "把保存按钮的背景色改为蓝色。", "expected": "no-trigger"},
+    {"id": "csv-function", "text": "Write a function to parse CSV rows.", "expected": "no-trigger"},
+    {"id": "web-deploy", "text": "Deploy our static website to Vercel.", "expected": "no-trigger"},
+    {"id": "size-only", "text": "只分析 Electron 安装包体积如何压缩，不调整打包验收流程。", "expected": "no-trigger"},
+    {"id": "ui-neighbor", "text": "修复 Electron 窗口按钮布局，不做打包。", "expected": "no-trigger"},
+    {"id": "ci-neighbor", "text": "Set up CI/CD for a Python web API, not desktop packaging.", "expected": "no-trigger"}
+  ]
+}

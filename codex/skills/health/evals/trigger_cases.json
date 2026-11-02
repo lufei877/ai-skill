@@ -1,0 +1,19 @@
+{
+  "cases": [
+    {"id": "zh-audit", "text": "用 health 给这个项目做 Agent 配置体检", "expected": "trigger"},
+    {"id": "zh-mcp", "text": "Codex 的 MCP 工具配置失效，检查下配置", "expected": "trigger"},
+    {"id": "zh-drift", "text": "检查 Claude 指令漂移，AI 不遵守项目规则", "expected": "trigger"},
+    {"id": "en-audit", "text": "Audit Codex and Claude agent config, hooks and MCP health", "expected": "trigger"},
+    {"id": "zh-full-software", "text": "用 health 对整个软件做安全防御和屎山排查", "expected": "trigger"},
+    {"id": "zh-security-only", "text": "检查整个软件的安全防御，包括鉴权、文件导入和桌面 IPC", "expected": "trigger"},
+    {"id": "zh-maintainability", "text": "排查代码腐化与可维护性，重点是状态混乱、吞错和测试真实性", "expected": "trigger"},
+    {"id": "en-software", "text": "Perform a whole-software security and maintainability audit with evidence and coverage gaps", "expected": "trigger"},
+    {"id": "zh-pr", "text": "帮我 review 这个订单分页 PR", "expected": "no-trigger"},
+    {"id": "zh-bug", "text": "修复购物车优惠券金额计算错误", "expected": "no-trigger"},
+    {"id": "zh-endpoint", "text": "给后端实现 /health 服务存活探针接口", "expected": "no-trigger"},
+    {"id": "zh-security-feature", "text": "给登录表单增加短信验证码", "expected": "no-trigger"},
+    {"id": "zh-refactor-only", "text": "把这个函数移动到 utils 模块，保持行为不变", "expected": "no-trigger"},
+    {"id": "en-medical", "text": "Give me a health plan for better sleep", "expected": "no-trigger"},
+    {"id": "zh-negation", "text": "不要做 Agent 配置体检，只解释 Codex 是什么", "expected": "no-trigger"}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "ai-skill-local",
+  "interface": {
+    "displayName": "AI Skill Local"
+  },
+  "plugins": [
+    {
+      "name": "ai-skill-governance",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ai-skill-governance"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

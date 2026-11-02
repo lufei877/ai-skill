@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "purpose": "Health software audit forward tests. Acceptance is reviewer-only; copy only fixture, candidate rules and selected Skill to executors.",
+  "cases": [
+    {
+      "id": "health-software-findings",
+      "kind": "execution",
+      "fixture": "evals/fixtures/health/invoices",
+      "prompt": "用 health 检查这个软件的安全防御和代码腐化，先出报告，不修改业务源码。它是多用户账单服务，gateway 传入已认证的用户 ID。",
+      "acceptance": "确认通过 gateway.invoice 到 store.load_invoice 的对象归属缺失，说明已认证用户可读他人账单；不把参数化 SQL 误报为注入。确认 export_job.run 的写入失败被伪造为成功，及 pricing 的报价/结算费用规则漂移，给出具体最小修法、验证与覆盖。源码不修改，不把清单等同审查。"
+    },
+    {
+      "id": "health-existing-defenses",
+      "kind": "execution",
+      "fixture": "evals/fixtures/health/protected",
+      "prompt": "用 health 只检查这个小型多用户账单模块的安全防御，先出报告。gateway 的 user_id 来自已认证会话，数据库连接由服务器注入。",
+      "acceptance": "沿 gateway 到 store 确认参数化查询和资源归属检查；不因为危险 API 关键词、没有路由鉴权装饰器或 SQL 拼接想象误报确认漏洞。说明审查范围，部署、CVE 或生产运行未查不宣称无漏洞。不修改源码。"
+    },
+    {
+      "id": "health-limited-coverage",
+      "kind": "execution",
+      "fixture": "evals/fixtures/health/invoices",
+      "prompt": "用 health 做软件体检。这次清单脚本最多遍历 2 个条目（--max-entries 2），不要增加这个预算；可以定向读源码。出报告并说明实际覆盖，不修改源码。",
+      "acceptance": "实际运行 collect_software.py 且 max-entries 为 2，报告 inventory partial/预算截断，不把退出码 0 或局部源码审查说成全项目通过；模块补查与仍未知分开，保持源码不变。"
+    },
+    {
+      "id": "health-negation",
+      "kind": "dialogue",
+      "prompt": "不要做 Agent 配置体检，也不要扫描软件。只用两句话解释 Codex 是什么。",
+      "acceptance": "只解释 Codex，不调用 health 采集器或读取用户配置，不提出体检模式选择，不写文件。"
+    }
+  ]
+}

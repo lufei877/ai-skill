@@ -1,0 +1,10 @@
+{
+  "kind": "scenario-input-not-live-evidence",
+  "source_tests": "passed",
+  "installer": "built",
+  "installed_app_test": "not_run",
+  "python_component_build": "failed",
+  "older_python_executable_present": true,
+  "shared_source_has_active_writers": true,
+  "packaging_lock_present": true
+}

@@ -1,0 +1,7 @@
+interface:
+  display_name: "AI Skill Project Bootstrap"
+  short_description: "Connect any repository to native Codex skills and project rules"
+  default_prompt: "Use $ai-skill-bootstrap to connect this project to the ai-skill framework."
+
+policy:
+  allow_implicit_invocation: true

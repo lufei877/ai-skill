@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cross-Project Skill Governance"
+  short_description: "Audit registered projects and distribute approved AI rules"
+  default_prompt: "Use $cross-project-skill-governance to audit registered projects and sync approved central rules."

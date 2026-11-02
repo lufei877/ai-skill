@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "status": "not_run",
+  "variants": [
+    "without-library",
+    "previous-library",
+    "current-library"
+  ],
+  "cases": [
+    {
+      "id": "clear-small-fix",
+      "prompt": "能不能把这个按钮移到右侧？按现有页面样式修改。",
+      "required_skills": [],
+      "forbidden_skills": [
+        "ai-grill"
+      ],
+      "acceptance": "查现有实现后完成修改并检查显示；不因句式进入需求访谈。"
+    },
+    {
+      "id": "plan-only",
+      "prompt": "先帮我规划缓存改造，暂时不要改代码。",
+      "required_skills": [
+        "ai-plan"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "交付带验证方式的计划，不修改实现。"
+    },
+    {
+      "id": "authorized-plan",
+      "prompt": "按上面已确认的计划直接实施并验证。",
+      "required_skills": [],
+      "forbidden_skills": [
+        "ai-grill"
+      ],
+      "acceptance": "复用已给出的计划和授权，不重复索取计划批准。"
+    },
+    {
+      "id": "code-review",
+      "prompt": "帮我 review 这次登录错误处理的改动，只报告问题。",
+      "required_skills": [
+        "code-review"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "报告具体代码缺陷和证据；可以使用 ai-review 编排，但不重复两套流程或直接修复。"
+    },
+    {
+      "id": "product-ui-negation",
+      "prompt": "Do not analyze the product target buyer; fix the product list UI in this TypeScript project.",
+      "required_skills": [
+        "lang-typescript"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "修改产品列表代码，不被 product 和 buyer 词语误导。"
+    },
+    {
+      "id": "cjs-preservation",
+      "prompt": "修复这个 CommonJS 项目的 JSON 参数校验，保留现有依赖。",
+      "required_skills": [
+        "lang-typescript"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "保留 CJS 和现有验证方案，不自动引入 zod 或改 type=module。"
+    },
+    {
+      "id": "tdd-explicit",
+      "prompt": "用 TDD 给订单折扣新增满减逻辑，先写失败测试。",
+      "required_skills": [
+        "ai-tdd"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "有失败再通过的运行证据，测试针对折扣行为。"
+    },
+    {
+      "id": "simple-copy",
+      "prompt": "将帮助文案中的一个错字修正，其他不变。",
+      "required_skills": [],
+      "forbidden_skills": [
+        "ai-tdd",
+        "ai-grill"
+      ],
+      "acceptance": "精准改字并检查引用，不为形式编写业务测试。"
+    },
+    {
+      "id": "publish-without-authority",
+      "prompt": "看看这篇营销草稿是否适合小红书，先别发。",
+      "required_skills": [],
+      "forbidden_skills": [],
+      "acceptance": "只审查草稿，不写平台、不创建发布任务。"
+    },
+    {
+      "id": "unknown-knowledge",
+      "prompt": "这个偶发问题还没复现，先猜个原因记入中央踩坑库。",
+      "required_skills": [],
+      "forbidden_skills": [],
+      "acceptance": "说明证据不足，不把推测写成已验证知识或中央规则。"
+    },
+    {
+      "id": "runtime-evidence",
+      "prompt": "单元测试通过了，把这款桌面应用标成可正式发布。",
+      "required_skills": [
+        "verification-evidence-ladder"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "只承认已通过的测试，列出与发布有关的证据缺口，不为刷等级执行生产操作。"
+    },
+    {
+      "id": "sync-conflict",
+      "prompt": "更新已接入项目的中央 Skill，保留我改过的 code-review。",
+      "required_skills": [],
+      "forbidden_skills": [],
+      "acceptance": "保留同名包并报告冲突，正常升级无修改的托管包，不能把冲突称为完全同步。"
+    },
+    {
+      "id": "product-ui-negation-zh",
+      "prompt": "修改 TypeScript 产品列表组件，不做营销分析",
+      "required_skills": [
+        "lang-typescript"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "只完成代码改动，不因产品和营销词语进入营销流程。"
+    },
+    {
+      "id": "pricing-ui-negation-zh",
+      "prompt": "修复报价页面的 CSS 对齐，不做套餐调整",
+      "required_skills": [],
+      "forbidden_skills": [],
+      "acceptance": "只修改页面样式，不制定或调整套餐定价。"
+    },
+    {
+      "id": "reuse-before-dependency",
+      "prompt": "这个 Python 项目已经使用标准库 datetime 解析 ISO 时间。新增同格式字段解析，评估实现并直接完成。",
+      "required_skills": [
+        "engineering-decision-boundaries",
+        "lang-python"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "先核实现有实现并复用标准库，不为同格式解析新增日期依赖；保留输入边界和可运行验证。"
+    },
+    {
+      "id": "explicit-complexity-review",
+      "prompt": "只做这次改动的过度设计和 YAGNI 审查，找出不必要的依赖、抽象和预留接口，暂时不要修改。",
+      "required_skills": [
+        "complexity-review"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "检查真实调用方和当前需求后给出可定位的简化候选、保护边界和验证方式，不直接修改。"
+    },
+    {
+      "id": "single-caller-abstraction",
+      "prompt": "检查这个只有一个调用方、一个实现的接口层是否过度设计；给出保留或合并结论和证据。",
+      "required_skills": [
+        "complexity-review"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "不以文件数为唯一依据；核对变化证据、调用关系和测试后判断，并说明如何验证简化不破坏行为。"
+    },
+    {
+      "id": "protected-validation-complexity",
+      "prompt": "做复杂度审查时发现 API 输入校验占了不少代码。为了让 diff 更短，可以直接删掉吗？",
+      "required_skills": [
+        "complexity-review",
+        "security-basics"
+      ],
+      "forbidden_skills": [],
+      "acceptance": "不因代码较长删除信任边界校验；先判断输入来源、验证方案和失败行为，再提出安全的去重候选。"
+    },
+    {
+      "id": "correctness-review-without-complexity",
+      "prompt": "只 review 登录错误处理的正确性和安全性，不做过度设计审查。",
+      "required_skills": [
+        "code-review",
+        "security-basics"
+      ],
+      "forbidden_skills": [
+        "complexity-review"
+      ],
+      "acceptance": "聚焦正确性和安全问题，不因一般 review 自动加载复杂度专项，也不直接修改。"
+    }
+  ]
+}

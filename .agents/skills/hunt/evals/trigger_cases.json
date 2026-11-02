@@ -1,0 +1,14 @@
+{
+  "cases": [
+    {"id":"zh-repeat","text":"这个 bug 反复修不好，用 hunt 定位根因并修复","expected":"trigger"},
+    {"id":"zh-regression","text":"升级后发生版本回归，以前正常的功能现在会崩溃","expected":"trigger"},
+    {"id":"zh-hang","text":"桌面切换页面偶发卡死，帮我诊断原因","expected":"trigger"},
+    {"id":"en-debug","text":"Debug this regression and find the root cause","expected":"trigger"},
+    {"id":"zh-review","text":"review 这个 PR 的分页改动","expected":"no-trigger"},
+    {"id":"zh-feature","text":"新增一个导出报表按钮","expected":"no-trigger"},
+    {"id":"zh-style","text":"这张页面配色不好看，调整视觉风格","expected":"no-trigger"},
+    {"id":"zh-health","text":"用 health 体检 Agent 指令和 MCP 配置","expected":"no-trigger"},
+    {"id":"zh-build","text":"依赖解析失败，用 ai-build-fix 处理构建问题","expected":"no-trigger"},
+    {"id":"zh-negation","text":"不要定位崩溃或版本回归，只解释这些术语","expected":"no-trigger"}
+  ]
+}

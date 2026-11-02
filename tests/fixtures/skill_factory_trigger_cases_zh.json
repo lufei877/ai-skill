@@ -1,0 +1,19 @@
+{
+  "cases": [
+    {
+      "id": "chinese-positive",
+      "text": "请创建一个可复用的发布清单",
+      "expected": "trigger"
+    },
+    {
+      "id": "mixed-language-positive",
+      "text": "Use the skill to 创建发布清单",
+      "expected": "trigger"
+    },
+    {
+      "id": "chinese-near-neighbor",
+      "text": "修复 Python 导入错误",
+      "expected": "no-trigger"
+    }
+  ]
+}

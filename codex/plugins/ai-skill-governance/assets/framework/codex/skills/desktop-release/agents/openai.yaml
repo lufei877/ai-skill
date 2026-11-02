@@ -1,0 +1,7 @@
+interface:
+  display_name: "桌面打包与验收"
+  short_description: "固定多会话改动的源码快照，验证 Electron／Python 安装包并绑定交付证据"
+  default_prompt: "使用 $desktop-release 检查本项目的多会话改动与打包流程，固定本次版本，构建并验收安装包，报告实际验证证据。"
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,14 @@
+id: match-existing-style
+name: 匹配已有风格
+trigger: 编辑已有文件时
+action: |
+  1. 先观察文件的现有风格（缩进、引号、命名、注释风格）
+  2. 新代码必须匹配已有风格，即使你觉得可以更好
+  3. 不"顺手"改格式、改引号、加类型注解（除非被要求）
+evidence: |
+  Karpathy 原则三"精准手术"。LLM 最常见的问题之一是
+  在修 bug 时顺手改了代码风格，导致 diff 难以 review。
+examples:
+  - 项目用单引号 → 你也用单引号，不换成双引号
+  - 项目没有 type hints → 你也不加，除非被要求
+  - 项目用 tabs → 你也用 tabs

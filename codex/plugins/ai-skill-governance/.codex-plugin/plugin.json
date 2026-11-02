@@ -1,0 +1,27 @@
+{
+  "name": "ai-skill-governance",
+  "version": "1.0.0+codex.d6d14fba412b30b3",
+  "description": "Connect repositories, audit software security, maintainability and Agent configuration, diagnose regressions, archive recoverable conversation summaries, evolve verified knowledge, and govern approved rules across projects in Codex.",
+  "author": {
+    "name": "ai-skill"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AI Skill Governance",
+    "shortDescription": "Portable project rules and evidence-driven knowledge evolution",
+    "longDescription": "Connect repositories to Codex-native ai-skill workflows, audit software security defenses, code maintainability and Agent configuration with evidence and coverage, preserve redacted conversation summaries and project knowledge, audit reusable evidence across registered projects, and distribute approved central rules.",
+    "developerName": "ai-skill",
+    "category": "Productivity",
+    "capabilities": [
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Connect this repository to ai-skill and verify native Codex discovery.",
+      "Use health to audit this software's security, maintainability, and Agent configuration, reporting evidence and coverage gaps.",
+      "Use hunt to diagnose this regression and verify the authorized fix.",
+      "Archive this Codex conversation as a redacted project recovery summary.",
+      "Distill verified project lessons from the completed task.",
+      "Audit registered projects and distribute approved central rules."
+    ]
+  }
+}

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>历史归档：ai-skill 接入与进化指南</title>
+<style>
+:root {
+  --bg: #0f1117;
+  --card: #1a1d27;
+  --border: #2a2d3a;
+  --text: #e4e4e7;
+  --dim: #9ca3af;
+  --accent: #6366f1;
+  --accent-l: #818cf8;
+  --green: #34d399;
+  --orange: #fb923c;
+  --red: #f87171;
+  --blue: #60a5fa;
+  --purple: #a78bfa;
+  --yellow: #fbbf24;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+.wrap { max-width:920px; margin:0 auto; padding:40px 24px 80px; }
+
+/* nav */
+nav { position:fixed; top:0; left:0; right:0; background:rgba(15,17,23,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--border); padding:12px 24px; z-index:100; display:flex; align-items:center; gap:16px; }
+nav .logo { font-weight:700; font-size:.95rem; color:var(--accent-l); }
+nav .links { display:flex; gap:18px; font-size:.85rem; }
+nav .links a { color:var(--dim); text-decoration:none; transition:color .2s; }
+nav .links a:hover { color:var(--text); }
+
+h1 { font-size:2.1rem; font-weight:700; margin-bottom:6px; padding-top:56px;
+  background:linear-gradient(135deg,var(--green),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.sub { color:var(--dim); font-size:1.05rem; margin-bottom:44px; }
+h2 { font-size:1.45rem; font-weight:600; margin-top:52px; margin-bottom:18px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+h3 { font-size:1.1rem; font-weight:600; margin-top:28px; margin-bottom:10px; color:var(--accent-l); }
+h4 { font-size:.95rem; font-weight:600; margin-top:20px; margin-bottom:8px; color:var(--green); }
+p { margin-bottom:14px; }
+ul,ol { margin:8px 0 16px 20px; }
+li { margin-bottom:6px; }
+a { color:var(--accent-l); }
+
+.card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:22px; margin:18px 0; }
+.card-t { font-weight:600; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+
+.badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:.73rem; font-weight:600; }
+.bg { background:rgba(52,211,153,.14); color:var(--green); }
+.bb { background:rgba(96,165,250,.14); color:var(--blue); }
+.bo { background:rgba(251,146,60,.14); color:var(--orange); }
+.bp { background:rgba(167,139,250,.14); color:var(--purple); }
+.by { background:rgba(251,191,36,.14); color:var(--yellow); }
+.br { background:rgba(248,113,113,.14); color:var(--red); }
+
+pre { background:#12141c; border:1px solid var(--border); border-radius:8px; padding:16px 20px; overflow-x:auto;
+  font-family:'JetBrains Mono','Fira Code','Cascadia Code',monospace; font-size:.86rem; line-height:1.6; margin:10px 0 18px; }
+code { font-family:'JetBrains Mono','Fira Code','Cascadia Code',monospace; font-size:.86rem; background:rgba(99,102,241,.1); padding:2px 6px; border-radius:4px; }
+pre code { background:none; padding:0; }
+.c { color:#6b7280; }
+.g { color:var(--green); }
+.o { color:var(--orange); }
+.b { color:var(--blue); }
+.p { color:var(--purple); }
+.y { color:var(--yellow); }
+
+.tip { background:rgba(52,211,153,.07); border-left:3px solid var(--green); padding:13px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:.9rem; }
+.warn { background:rgba(251,146,60,.07); border-left:3px solid var(--orange); padding:13px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:.9rem; }
+.danger { background:rgba(248,113,113,.07); border-left:3px solid var(--red); padding:13px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:.9rem; }
+
+table { width:100%; border-collapse:collapse; font-size:.88rem; margin:14px 0; }
+th,td { padding:10px 14px; text-align:left; border-bottom:1px solid var(--border); }
+th { background:rgba(99,102,241,.07); font-weight:600; color:var(--accent-l); }
+
+.num { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; font-size:.78rem; font-weight:700; margin-right:8px; vertical-align:middle; }
+.num-g { background:var(--green); color:#0f1117; }
+.num-b { background:var(--blue); color:#0f1117; }
+.num-o { background:var(--orange); color:#0f1117; }
+.num-p { background:var(--purple); color:#0f1117; }
+
+.toc { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:22px 26px; margin:28px 0; }
+.toc-t { font-weight:600; margin-bottom:10px; color:var(--accent-l); }
+.toc a { display:block; color:var(--dim); text-decoration:none; padding:5px 0; font-size:.9rem; transition:color .2s; }
+.toc a:hover { color:var(--accent-l); }
+
+.arch-box { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+.arch-item { background:#12141c; border:1px solid var(--border); border-radius:10px; padding:16px; }
+.arch-item h4 { margin-top:0; }
+@media(max-width:640px) { .arch-box { grid-template-columns:1fr; } }
+
+.flow-h { display:flex; align-items:center; gap:12px; margin:20px 0; flex-wrap:wrap; }
+.flow-arrow { color:var(--dim); font-size:1.2rem; }
+.flow-node { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:8px 14px; font-size:.85rem; font-weight:600; }
+
+.pw { position:relative; }
+.cp { position:absolute; top:8px; right:8px; background:var(--border); border:none; color:var(--dim); padding:4px 10px; border-radius:4px; font-size:.73rem; cursor:pointer; opacity:0; transition:opacity .2s; }
+.pw:hover .cp { opacity:1; }
+.cp:hover { background:var(--accent); color:white; }
+
+.step-grid { display:grid; grid-template-columns:40px 1fr; gap:0 16px; margin:20px 0; }
+.step-dot { width:12px; height:12px; border-radius:50%; margin-top:6px; justify-self:center; }
+.step-line { width:2px; background:var(--border); justify-self:center; min-height:20px; }
+.step-body { padding-bottom:20px; }
+.step-title { font-weight:600; font-size:.92rem; }
+.step-desc { color:var(--dim); font-size:.88rem; margin-top:4px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">ai-skill · 历史归档，请勿照做</span>
+  <div class="links">
+    <a href="#q1">中途接入</a>
+    <a href="#q2">升级与魔改</a>
+    <a href="#q3">跨项目复用</a>
+    <a href="#q4">进化机制</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<h1>历史归档：接入与进化指南</h1>
+<div class="danger" role="note"><strong>2026-10-12 归档：本页保留历史设计，不是当前操作指南。</strong>
+<p>下文的目录、覆盖行为与升级步骤已过时，请勿照做。当前项目知识和冻结区位于 <code>.ai-skill/project/</code>，框架副本位于 <code>.ai-skill/framework/</code>；已有 RULES.md 会保留，Codex 的 AGENTS.md 更新受管段而非整份覆盖。重新初始化不能绕过稳定版验收或替代跨项目同步。</p>
+<p>当前接入步骤请读 <a href="../README.md">README</a>，版本验收和下发规则请读 <a href="library-release.md">中央版本与防退化</a>。后续正文仅供追溯。</p></div>
+<p class="sub">项目做到一半怎么接？魔改过怎么升级？经验怎么跨项目复用？</p>
+
+<div class="toc">
+  <div class="toc-t">目录</div>
+  <a href="#arch">0. 先理解：全局 vs 项目级的分层架构</a>
+  <a href="#q1">1. 项目进行到一半，怎么接入 ai-skill？</a>
+  <a href="#q2">2. 已有旧版 + 魔改，怎么升级？</a>
+  <a href="#q3">3. 其他项目总结的经验，怎么复用到新项目？</a>
+  <a href="#q4">4. 进化机制：知识怎么持续增长？</a>
+  <a href="#commands">5. 所有命令速查</a>
+</div>
+
+<!-- ===== 架构 ===== -->
+<h2 id="arch"><span class="num num-g">0</span>先理解：全局 vs 项目级的分层架构</h2>
+
+<p>ai-skill 的设计核心是<strong>两层分离</strong>：全局规则库 + 项目级覆盖。理解这个分层，后面所有问题都好办。</p>
+
+<div class="arch-box">
+  <div class="arch-item">
+    <h4>全局规则库（你的 ai-skill 仓库）</h4>
+    <pre style="border:none; margin:0; font-size:.8rem;"><code><span class="b">/path/to/ai-skill\</span>
+├── RULES.md           <span class="c">← 统一入口</span>
+├── core/              <span class="c">← 原则+约束</span>
+├── skills/            <span class="c">← 通用规则</span>
+│   └── knowledge/
+│       ├── pitfalls.md  <span class="c">← 全局踩坑</span>
+│       └── recipes.md   <span class="c">← 全局配方</span>
+├── commands/          <span class="c">← 工作流命令</span>
+└── evolution/         <span class="c">← 进化协议</span></code></pre>
+    <p style="font-size:.85rem; color:var(--green); margin-top:8px;">所有项目共享。改这里 = 影响所有项目。</p>
+  </div>
+  <div class="arch-item">
+    <h4>项目级覆盖（每个项目独有）</h4>
+    <pre style="border:none; margin:0; font-size:.8rem;"><code><span class="b">你的项目/</span>
+├── .ai-skill/
+│   ├── context.md     <span class="c">← 项目宪法</span>
+│   ├── zones.md       <span class="c">← 冻结区定义</span>
+│   ├── knowledge/
+│   │   ├── pitfalls.md  <span class="c">← 项目专属踩坑</span>
+│   │   └── recipes.md   <span class="c">← 项目专属配方</span>
+│   └── skills/        <span class="c">← 项目专属规则</span>
+├── CLAUDE.md          <span class="c">← Claude Code 入口</span>
+├── .cursorrules       <span class="c">← Cursor 入口</span>
+└── AGENTS.md          <span class="c">← Codex 入口</span></code></pre>
+    <p style="font-size:.85rem; color:var(--orange); margin-top:8px;">只属于这个项目。init-project.py 不会动这里。</p>
+  </div>
+</div>
+
+<div class="tip">
+  <strong>关键设计：</strong><code>init-project.py</code> 只复制 RULES.md 和生成 IDE 配置文件，<strong>永远不会碰 <code>.ai-skill/</code> 目录</strong>。所以你的项目定制（宪法、冻结区、项目知识）在升级时不会被覆盖。
+</div>
+
+<!-- ===== 问题 1 ===== -->
+<h2 id="q1"><span class="num num-b">1</span>项目进行到一半，怎么接入 ai-skill？</h2>
+
+<p>核心思路：<strong>先接规则，再学项目，最后定边界</strong>。不需要改任何已有代码。</p>
+
+<h3>Step 1: 运行 init（30 秒）</h3>
+
+<div class="pw">
+<button class="cp" onclick="copyCode(this)">复制</button>
+<pre><code><span class="c"># 在你的项目根目录运行</span>
+<span class="g">cd</span> <span class="b">C:\Projects\my-ongoing-project</span>
+
+<span class="c"># 生成所有 IDE 的配置文件</span>
+<span class="g">python</span> <span class="b">"/path/to/ai-skill\scripts\init-project.py"</span> <span class="o">--path</span> .
+
+<span class="c"># 或者只生成你用的 IDE</span>
+<span class="g">python</span> <span class="b">"/path/to/ai-skill\scripts\init-project.py"</span> <span class="o">--path</span> . <span class="o">--ide</span> <span class="p">cursor</span></code></pre>
+</div>
+
+<p>这一步只添加文件，不修改任何已有代码。生成的文件列表见<a href="workflow-guide.html#setup">工作流指南</a>。</p>
+
+<h3>Step 2: 创建项目宪法（5 分钟）</h3>
+
+<div class="pw">
+<button class="cp" onclick="copyCode(this)">复制</button>
+<pre><code><span class="c"># 创建项目级 ai-skill 目录</span>
+<span class="g">mkdir</span> <span class="b">.ai-skill</span>
+<span class="g">mkdir</span> <span class="b">.ai-skill\knowledge</span>
+
+<span class="c"># 复制项目宪法模板</span>
+<span class="g">copy</span> <span class="b">"/path/to/ai-skill\core\context-template.md"</span> <span class="b">".ai-skill\context.md"</span>
+
+<span class="c"># 复制冻结区模板</span>
+<span class="g">copy</span> <span class="b">"/path/to/ai-skill\core\zones.md"</span> <span class="b">".ai-skill\zones.md"</span></code></pre>
+</div>
+
+<p>然后打开 <code>.ai-skill/context.md</code>，填写你的项目信息：</p>
+
+<pre><code><span class="c">## 项目概述</span>
+<span class="p">项目名称</span>：my-saas-app
+<span class="p">一句话描述</span>：面向中小企业的 SaaS 管理后台
+<span class="p">当前阶段</span>：开发中（已完成用户模块，正在做权限系统）
+
+<span class="c">## 技术栈</span>
+语言：TypeScript 5.x
+前端：React 18 + Ant Design
+后端：NestJS + Prisma
+数据库：PostgreSQL
+...</code></pre>
+
+<h3>Step 3: 定义冻结区（3 分钟）</h3>
+
+<p>打开 <code>.ai-skill/zones.md</code>，把你项目中不希望 AI 碰的文件列出来：</p>
+
+<pre><code><span class="c">## 冻结区（AI 绝对不能改）</span>
+- src/auth/core.ts            <span class="c">← 认证核心，手动维护</span>
+- prisma/migrations/          <span class="c">← 已执行的迁移</span>
+- .github/workflows/          <span class="c">← CI/CD 流水线</span>
+- package-lock.json           <span class="c">← 锁文件</span>
+
+<span class="c">## 受控区（AI 可以改，但要先说明）</span>
+- prisma/schema.prisma        <span class="c">← 数据模型，改前要说影响</span>
+- src/common/                 <span class="c">← 公共组件，改前要确认</span></code></pre>
+
+<h3>Step 4: 让 AI 学习项目（可选，2 分钟）</h3>
+
+<p>如果项目是 git 仓库，可以跑一次 git 历史分析：</p>
+
+<div class="pw">
+<button class="cp" onclick="copyCode(this)">复制</button>
+<pre><code><span class="g">python</span> <span class="b">"/path/to/ai-skill\scripts\learn-from-git.py"</span> <span class="o">--path</span> . <span class="o">--write</span></code></pre>
+</div>
+
+<p>或者在 AI 对话中直接说：</p>
+
+<pre><code><span class="c"># 在 Cursor / Claude Code / 任意 AI 工具里</span>
+/learn</code></pre>
+
+<p>AI 会扫描项目结构、采样代码风格、分析 git 历史，然后生成学习报告。</p>
+
+<h3>完成后你的项目结构</h3>
+
+<pre><code><span class="b">my-ongoing-project/</span>
+├── .ai-skill/               <span class="g">← 你填写的（项目专属）</span>
+│   ├── context.md
+│   ├── zones.md
+│   ├── knowledge/            <span class="c">← 后续积累的项目知识</span>
+│   └── git-analysis.md       <span class="c">← learn-from-git 自动生成</span>
+├── RULES.md                  <span class="g">← init 生成的（来自全局库）</span>
+├── CLAUDE.md                 <span class="g">← init 生成的</span>
+├── .cursorrules              <span class="g">← init 生成的</span>
+├── AGENTS.md                 <span class="g">← init 生成的</span>
+└── <span class="c">[你的已有代码，完全不受影响]</span></code></pre>
+
+<div class="tip">
+  <strong>渐进式采用：</strong>你不需要一步到位。先 init + 填宪法就够用了。冻结区、项目 skill、知识库可以随开发逐步完善。
+</div>
+
+<!-- ===== 问题 2 ===== -->
+<h2 id="q2"><span class="num num-o">2</span>已有旧版 + 魔改，怎么升级？</h2>
+
+<p>假设你的项目之前用的是 ai-skill v1，你做了一些定制（加了项目 skill、改了规则、积累了踩坑记录），现在要升级到新版。</p>
+
+<h3>先搞清楚：哪些是"全局"的，哪些是"你的"</h3>
+
+<div class="card">
+<table>
+<tr><th>文件</th><th>来自哪里</th><th>升级时会怎样</th></tr>
+<tr><td><code>RULES.md</code></td><td>全局库（init 生成）</td><td style="color:var(--orange);">会被覆盖 → 拿到新规则</td></tr>
+<tr><td><code>.cursorrules</code></td><td>全局库（init 生成）</td><td style="color:var(--orange);">会被覆盖 → 拿到新规则</td></tr>
+<tr><td><code>CLAUDE.md</code></td><td>全局库（init 生成）</td><td style="color:var(--orange);">会被覆盖 → 拿到新规则</td></tr>
+<tr><td><code>AGENTS.md</code></td><td>全局库（init 生成）</td><td style="color:var(--orange);">会被覆盖 → 拿到新规则</td></tr>
+<tr><td><code>.ai-skill/context.md</code></td><td>你填的</td><td style="color:var(--green);">不会被动 → 安全</td></tr>
+<tr><td><code>.ai-skill/zones.md</code></td><td>你填的</td><td style="color:var(--green);">不会被动 → 安全</td></tr>
+<tr><td><code>.ai-skill/knowledge/*</code></td><td>你积累的</td><td style="color:var(--green);">不会被动 → 安全</td></tr>
+<tr><td><code>.ai-skill/skills/*</code></td><td>你写的</td><td style="color:var(--green);">不会被动 → 安全</td></tr>
+</table>
+</div>
+
+<h3>场景 A：没改过全局规则，只加了项目级定制</h3>
+
+<p>最简单。直接重新 init：</p>
+
+<div class="pw">
+<button class="cp" onclick="copyCode(this)">复制</button>
+<pre><code><span class="c"># 直接跑，只有 RULES.md 和 IDE 配置会更新</span>
+<span class="c"># .ai-skill/ 完全不受影响</span>
+<span class="g">python</span> <span class="b">"/path/to/ai-skill\scripts\init-project.py"</span> <span class="o">--path</span> .</code></pre>
+</div>
+
+<p>完事。你的所有项目定制（宪法、冻结区、知识库、自定义 skill）原封不动。</p>
+
+<h3>场景 B：魔改过 RULES.md 或 .cursorrules</h3>
+
+<p>如果你直接改了项目里的 RULES.md（比如加了几条项目专属规则），重新 init 会覆盖它们。</p>
+
+<h4>升级步骤</h4>
+
+<div class="step-grid">
+  <div class="step-dot" style="background:var(--orange)"></div>
+  <div class="step-body">
+    <div class="step-title">1. 备份你的魔改</div>
+    <div class="step-desc">
+      <pre><code><span class="g">copy</span> RULES.md RULES.md.mine</code></pre>
+    </div>
+  </div>
+  <div class="step-line"></div><div></div>
+  <div class="step-dot" style="background:var(--blue)"></div>
+  <div class="step-body">
+    <div class="step-title">2. 执行 init 拿到新版</div>
+    <div class="step-desc">
+      <pre><code><span class="g">python</span> <span class="b">"/path/to/ai-skill\scripts\init-project.py"</span> <span class="o">--path</span> .</code></pre>
+    </div>
+  </div>
+  <div class="step-line"></div><div></div>
+  <div class="step-dot" style="background:var(--green)"></div>
+  <div class="step-body">
+    <div class="step-title">3. 对比差异，合并你的魔改</div>
+    <div class="step-desc">
+      <pre><code><span class="c"># 用任意 diff 工具对比</span>
+<span class="g">git diff</span> --no-index RULES.md.mine RULES.md
+
+<span class="c"># 或者让 AI 帮你合并</span>
+请帮我把 RULES.md.mine 中我自定义的规则合并到新版 RULES.md 中</code></pre>
+    </div>
+  </div>
+  <div class="step-line"></div><div></div>
+  <div class="step-dot" style="background:var(--purple)"></div>
+  <div class="step-body">
+    <div class="step-title">4. 清理备份</div>
+    <div class="step-desc">
+      <pre><code><span class="g">del</span> RULES.md.mine</code></pre>
+    </div>
+  </div>
+</div>
+
+<div class="warn">
+  <strong>更好的做法（推荐）：</strong>不要直接改 RULES.md。把项目专属规则放到 <code>.ai-skill/</code> 下。这样 init 永远安全，升级零冲突。
+</div>
+
+<h3>正确的定制方式：项目级覆盖</h3>
+
+<p>把你的魔改内容迁移到正确的位置：</p>
+
+<div class="card">
+<table>
+<tr><th>你魔改的内容</th><th>应该放在哪里</th><th>怎么迁移</th></tr>
+<tr>
+  <td>加了项目专属的禁止项</td>
+  <td><code>.ai-skill/constraints.md</code></td>
+  <td>从 RULES.md 中摘出来，写到项目级文件</td>
+</tr>
+<tr>
+  <td>加了特定技术栈的规则</td>
+  <td><code>.ai-skill/skills/my-rule.md</code></td>
+  <td>用 skill 模板创建独立规则文件</td>
+</tr>
+<tr>
+  <td>修改了某条原则的表述</td>
+  <td><code>.ai-skill/context.md</code> 的"关键约定"区</td>
+  <td>写在宪法里，项目级覆盖全局</td>
+</tr>
+<tr>
+  <td>加了项目专属的 instinct</td>
+  <td><code>.ai-skill/instincts/my-instinct.yaml</code></td>
+  <td>用 instinct 格式独立保存</td>
+</tr>
+</table>
+</div>
+
+<p>迁移完成后，你的 RULES.md 保持和全局库一致，升级永远是一条命令的事。</p>
+
+<!-- ===== 问题 3 ===== -->
+<h2 id="q3"><span class="num num-p">3</span>其他项目总结的经验，怎么复用到新项目？</h2>
+
+<p>这是 ai-skill 的核心价值之一：<strong>知识不锁在某个项目里，通用经验向上沉淀到全局库</strong>。</p>
+
+<h3>知识流向图</h3>
+
+<div class="card" style="text-align:center; padding:28px;">
+<pre style="border:none; background:transparent; text-align:left; display:inline-block; margin:0;"><code>
+<span class="b">项目 A 发现一个坑</span>
+        │
+        ▼
+<span class="o">判断：通用还是专属？</span>
+       ╱          ╲
+      ▼            ▼
+<span class="g">通用 →</span>             <span class="p">专属 →</span>
+写入全局            写入项目
+<span class="g">ai-skill/skills/</span>   <span class="p">项目A/.ai-skill/</span>
+<span class="g">knowledge/</span>         <span class="p">knowledge/</span>
+      │
+      ▼
+<span class="b">项目 B、C、D...</span>
+自动继承全局知识
+（通过 RULES.md 引用）
+</code></pre>
+</div>
+
+<h3>操作方法：从项目 A 提炼经验到全局库</h3>
+
+<h4>方式 1: AI 自动提议（推荐）</h4>
+
+<p>在任务结束时（/finish 或 AI 自动进入收尾），AI 会按进化协议判断：</p>
+
+<pre><code><span class="c"># AI 在 /finish 时的判断逻辑：</span>
+
+这次解决了一个有通用价值的新问题？
+  <span class="g">→ Yes → "建议记录到全局 pitfalls：PIT-004: ..."</span>
+  → No  → 跳过
+
+这次用了一个值得标准化的多步操作？
+  <span class="g">→ Yes → "建议记录到全局 recipes：RECIPE-004: ..."</span>
+  → No  → 跳过
+
+<span class="c"># AI 只提议，你确认后才写入</span></code></pre>
+
+<h4>方式 2: 手动记录</h4>
+
+<p>在任何 AI 对话中直接说：</p>
+
+<div class="pw">
+<button class="cp" onclick="copyCode(this)">复制</button>
+<pre><code><span class="c"># 记录一个通用踩坑</span>
+帮我把这个问题记录到 ai-skill 全局 pitfalls：
+Prisma 的 connectOrCreate 在并发时会 race condition，
+需要用 $transaction + upsert 代替
+
+<span class="c"># 记录一个通用配方</span>
+帮我把这个操作记录到 ai-skill 全局 recipes：
+NestJS + Prisma + PostgreSQL 的事务处理标准步骤</code></pre>
+</div>
+
+<p>AI 会按格式追加到 <code>ai-skill/skills/knowledge/pitfalls.md</code> 或 <code>recipes.md</code>。</p>
+
+<h4>方式 3: 运行健康度检查，发现待沉淀的知识</h4>
+
+<div class="pw">
+<button class="cp" onclick="copyCode(this)">复制</button>
+<pre><code><span class="g">python</span> <span class="b">"/path/to/ai-skill\scripts\sync.py"</span> <span class="o">--health</span>
+
+<span class="c"># 输出示例：</span>
+<span class="c"># [HEALTH] 进化健康度报告:</span>
+<span class="c">#   踩坑记录: 3 条</span>
+<span class="c">#   操作配方: 3 条</span>
+<span class="c">#   进化日志: 1 条</span></code></pre>
+</div>
+
+<h3>新项目怎么自动拿到这些经验？</h3>
+
+<p>当你对新项目 B 运行 <code>init-project.py</code> 时，生成的 RULES.md 包含了对全局 skill 库的引用。AI 在需要时会主动读取 <code>ai-skill/skills/knowledge/</code> 中的全局知识。</p>
+
+<p>具体来说，RULES.md 中的这段话告诉了 AI：</p>
+
+<pre><code><span class="c">## 八、扩展 Skill 库</span>
+
+本文件是精简版。完整 skill 库在本文件同目录下：
+<span class="b">skills/knowledge/pitfalls.md</span>  <span class="c">← AI 遇到类似问题时会来查</span>
+<span class="b">skills/knowledge/recipes.md</span>   <span class="c">← AI 需要标准步骤时会来查</span></code></pre>
+
+<p>加上路由规则中的第四级"遇到问题时查阅"，AI 会在遇到相关问题时自动检索全局知识库。</p>
+
+<h3>跨项目复用的完整流程</h3>
+
+<div class="card">
+<pre style="border:none; margin:0;"><code><span class="c"># 项目 A：在一个项目中积累知识</span>
+<span class="b">项目 A 开发中</span>
+  → 遇到 Prisma 并发 bug，解决了
+  → /finish 时 AI 提议记录
+  → 你确认 → 写入 <span class="g">ai-skill/skills/knowledge/pitfalls.md</span>
+
+<span class="c"># 项目 B：新项目自动受益</span>
+<span class="g">python</span> init-project.py --path <span class="b">项目B/</span>
+  → 项目 B 的 RULES.md 引用了全局 skill 库
+  → AI 在项目 B 里遇到 Prisma 并发问题
+  → 自动查 pitfalls.md → 找到 PIT-004
+  → 直接用正确的方式处理，不再踩坑
+
+<span class="c"># 项目 C：同理，所有新项目自动继承</span></code></pre>
+</div>
+
+<!-- ===== 问题 4 ===== -->
+<h2 id="q4"><span class="num num-g">4</span>进化机制：知识怎么持续增长？</h2>
+
+<h3>进化的四种方式</h3>
+
+<div class="card">
+<table>
+<tr><th>进化类型</th><th>触发条件</th><th>写入位置</th><th>示例</th></tr>
+<tr>
+  <td><span class="badge bg">踩坑进化</span></td>
+  <td>解决了一个之前没记录的问题</td>
+  <td>pitfalls.md</td>
+  <td>PIT-004: Prisma 并发 race condition</td>
+</tr>
+<tr>
+  <td><span class="badge bb">配方进化</span></td>
+  <td>完成了一个值得标准化的多步操作</td>
+  <td>recipes.md</td>
+  <td>RECIPE-004: NestJS 事务处理标准步骤</td>
+</tr>
+<tr>
+  <td><span class="badge bp">Skill 进化</span></td>
+  <td>某领域已积累 ≥3 条 pitfall/recipe</td>
+  <td>新建 skill 文件</td>
+  <td>skills/foundations/prisma.md</td>
+</tr>
+<tr>
+  <td><span class="badge bo">反馈进化</span></td>
+  <td>用户纠正了 AI 的行为</td>
+  <td>对应规则文件</td>
+  <td>"不要自动格式化 SQL 文件" → 加入约束</td>
+</tr>
+</table>
+</div>
+
+<h3>进化触发时机</h3>
+
+<div class="step-grid">
+  <div class="step-dot" style="background:var(--green)"></div>
+  <div class="step-body">
+    <div class="step-title"><code>/finish</code> 收尾时（主要触发点）</div>
+    <div class="step-desc">AI 执行完任务后，自动检查是否有值得记录的新知识。这是最常见的进化时机。</div>
+  </div>
+  <div class="step-line"></div><div></div>
+  <div class="step-dot" style="background:var(--blue)"></div>
+  <div class="step-body">
+    <div class="step-title">Instinct "从错误中学习" 触发</div>
+    <div class="step-desc">AI 解决了一个之前没遇到的问题时，instinct 会提醒它在任务结束时提议记录。</div>
+  </div>
+  <div class="step-line"></div><div></div>
+  <div class="step-dot" style="background:var(--orange)"></div>
+  <div class="step-body">
+    <div class="step-title">你主动要求记录</div>
+    <div class="step-desc">任何时候你都可以说"把这个记录下来"或"这个值得加到 pitfalls"。</div>
+  </div>
+  <div class="step-line"></div><div></div>
+  <div class="step-dot" style="background:var(--purple)"></div>
+  <div class="step-body">
+    <div class="step-title">定期健康度检查</div>
+    <div class="step-desc">运行 <code>sync.py --health</code> 查看知识库增长情况，发现空白领域。</div>
+  </div>
+</div>
+
+<h3>进化的安全规则</h3>
+
+<div class="card">
+<ol>
+  <li><strong>只增不改</strong> — 已有记录只能追加，不能修改或删除</li>
+  <li><strong>AI 提议，人确认</strong> — AI 建议记录什么，但不会自行写入</li>
+  <li><strong>通用优先</strong> — 只有跨项目通用的知识才写入全局库</li>
+  <li><strong>去重检查</strong> — 追加前检查是否已有类似记录</li>
+  <li><strong>质量门槛</strong> — 不记录一次性的、显而易见的问题</li>
+</ol>
+</div>
+
+<h3>从量变到质变：Skill 升级</h3>
+
+<p>当某个领域积累了 ≥3 条 pitfall/recipe 时，就值得升级为独立 skill：</p>
+
+<pre><code><span class="c"># 进化路径示例：</span>
+
+<span class="o">PIT-004</span>: Prisma connectOrCreate 并发问题
+<span class="o">PIT-007</span>: Prisma $transaction 嵌套时的死锁
+<span class="o">RECIPE-004</span>: NestJS + Prisma 事务标准步骤
+<span class="o">RECIPE-008</span>: Prisma migration 安全操作
+
+<span class="c"># 积累 4 条 → AI 提议：</span>
+<span class="g">"建议将 Prisma 相关知识升级为独立 skill：</span>
+<span class="g"> skills/foundations/prisma.md"</span>
+
+<span class="c"># 你确认后，AI 创建新 skill，把散落的知识整合进去</span></code></pre>
+
+<h3>进化日志</h3>
+
+<p>每次进化操作都会记录到 <code>evolution/log.md</code>：</p>
+
+<pre><code>### EVO-002 | 2026-06-15
+- <span class="p">类型</span>：pitfall
+- <span class="p">来源</span>：项目 A 的支付模块开发
+- <span class="p">内容</span>：新增 PIT-004: Prisma connectOrCreate 并发 race condition
+- <span class="p">文件</span>：skills/knowledge/pitfalls.md</code></pre>
+
+<!-- ===== 命令速查 ===== -->
+<h2 id="commands"><span class="num num-b">5</span>所有命令速查</h2>
+
+<div class="card">
+<h4 style="margin-top:0;">脚本命令（在终端运行）</h4>
+<table>
+<tr><th>命令</th><th>作用</th><th>场景</th></tr>
+<tr>
+  <td><code>python init-project.py --path .</code></td>
+  <td>初始化 / 升级项目配置</td>
+  <td>新项目接入 / 规则更新后同步</td>
+</tr>
+<tr>
+  <td><code>python init-project.py --path . --ide cursor</code></td>
+  <td>只为指定 IDE 生成配置</td>
+  <td>只用一个 IDE</td>
+</tr>
+<tr>
+  <td><code>python sync.py --health</code></td>
+  <td>进化健康度报告</td>
+  <td>定期检查知识增长</td>
+</tr>
+<tr>
+  <td><code>python sync.py --stats</code></td>
+  <td>Skill 库统计</td>
+  <td>查看规则库概况</td>
+</tr>
+<tr>
+  <td><code>python learn-from-git.py --path . --write</code></td>
+  <td>从 git 历史学习项目约定</td>
+  <td>中途接入时快速了解项目</td>
+</tr>
+</table>
+
+<p style="font-size:.82rem; color:var(--dim); margin-top:8px;">脚本路径前缀：<code>/path/to/ai-skill\scripts\</code></p>
+</div>
+
+<div class="card">
+<h4 style="margin-top:0;">AI 对话命令（在任意 IDE 中说）</h4>
+<table>
+<tr><th>命令</th><th>作用</th><th>场景</th></tr>
+<tr>
+  <td><code>/grill</code></td>
+  <td>需求拷问</td>
+  <td>需求模糊时</td>
+</tr>
+<tr>
+  <td><code>/plan</code></td>
+  <td>任务规划</td>
+  <td>复杂任务需要拆步骤时</td>
+</tr>
+<tr>
+  <td><code>/review</code></td>
+  <td>代码审查</td>
+  <td>改动完成后检查质量</td>
+</tr>
+<tr>
+  <td><code>/tdd</code></td>
+  <td>测试驱动开发</td>
+  <td>需要写测试时</td>
+</tr>
+<tr>
+  <td><code>/build-fix</code></td>
+  <td>构建修复</td>
+  <td>构建/启动失败时</td>
+</tr>
+<tr>
+  <td><code>/finish</code></td>
+  <td>任务收尾</td>
+  <td>任务完成时闭环</td>
+</tr>
+<tr>
+  <td><code>/learn</code></td>
+  <td>学习当前项目</td>
+  <td>中途接入，让 AI 了解项目</td>
+</tr>
+</table>
+</div>
+
+<div class="card" style="background:linear-gradient(135deg,rgba(52,211,153,.06),rgba(96,165,250,.06));">
+<h4 style="margin-top:0; color:var(--text);">一页纸速查</h4>
+<pre style="border:none; background:transparent; margin:0;"><code><span class="c"># === 首次接入 ===</span>
+<span class="g">python</span> init-project.py --path .          <span class="c"># 生成配置</span>
+<span class="c">创建 .ai-skill/context.md                 # 填项目信息</span>
+<span class="c">创建 .ai-skill/zones.md                   # 定冻结区</span>
+<span class="g">python</span> learn-from-git.py --path . --write <span class="c"># 学 git 历史（可选）</span>
+
+<span class="c"># === 日常开发 ===</span>
+需求模糊 → /grill → /plan → 执行 → /finish
+简单任务 → 直接做 → AI 自动遵守规则
+
+<span class="c"># === 升级规则 ===</span>
+<span class="g">python</span> init-project.py --path .          <span class="c"># 重新 init = 同步新规则</span>
+
+<span class="c"># === 知识进化 ===</span>
+AI 提议 → 你确认 → 写入全局 pitfalls/recipes
+<span class="g">python</span> sync.py --health                  <span class="c"># 检查知识增长</span></code></pre>
+</div>
+
+</div>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.parentElement.querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    btn.textContent = '已复制';
+    setTimeout(() => btn.textContent = '复制', 2000);
+  });
+}
+</script>
+</body>
+</html>

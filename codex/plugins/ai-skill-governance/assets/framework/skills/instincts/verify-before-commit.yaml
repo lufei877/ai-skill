@@ -1,0 +1,14 @@
+id: verify-before-commit
+name: 提交前验证
+trigger: 准备 git commit 或告诉用户"已完成"之前
+action: |
+  1. 按改动风险运行必要的测试或其他验证，低影响改动不机械补测试
+  2. 检查新增 debug 残留，正常 CLI 输出不当作调试代码
+  3. 确认改动文件不在冻结区
+  4. 执行 constraints.md 中的自检清单
+evidence: |
+  多次出现"改完了"但实际测试未通过、调试代码未清理的情况。
+  Karpathy 原则四"目标驱动执行"要求验证后才算完成。
+examples:
+  - "改好了" → 先跑测试，通过后才说改好了
+  - "提交吧" → 先检查 diff 里有无调试代码

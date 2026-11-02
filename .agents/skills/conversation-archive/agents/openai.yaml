@@ -1,0 +1,4 @@
+interface:
+  display_name: "Conversation Archive"
+  short_description: "Archive redacted project conversation recovery summaries"
+  default_prompt: "Use $conversation-archive to save this task as a redacted project recovery summary."

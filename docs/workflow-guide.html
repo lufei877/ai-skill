@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>历史归档：ai-skill 工作流使用指南</title>
+<style>
+:root {
+  --bg: #0f1117;
+  --card: #1a1d27;
+  --border: #2a2d3a;
+  --text: #e4e4e7;
+  --text-dim: #9ca3af;
+  --accent: #6366f1;
+  --accent-light: #818cf8;
+  --green: #34d399;
+  --orange: #fb923c;
+  --red: #f87171;
+  --blue: #60a5fa;
+  --purple: #a78bfa;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  padding: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--accent-light), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  margin-bottom: 48px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 56px;
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  color: var(--accent-light);
+}
+
+p { margin-bottom: 16px; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin: 20px 0;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-green { background: rgba(52,211,153,0.15); color: var(--green); }
+.badge-orange { background: rgba(251,146,60,0.15); color: var(--orange); }
+.badge-blue { background: rgba(96,165,250,0.15); color: var(--blue); }
+.badge-purple { background: rgba(167,139,250,0.15); color: var(--purple); }
+
+pre {
+  background: #12141c;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: 12px 0 20px;
+}
+
+code {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 0.88rem;
+  background: rgba(99,102,241,0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+.comment { color: #6b7280; }
+.cmd { color: var(--green); }
+.flag { color: var(--orange); }
+.path { color: var(--blue); }
+.string { color: var(--purple); }
+
+.flow-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 24px 0;
+}
+
+.flow-step {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.flow-line {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.flow-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-top: 20px;
+}
+
+.flow-connector {
+  width: 2px;
+  flex-grow: 1;
+  background: var(--border);
+}
+
+.flow-content {
+  flex-grow: 1;
+  padding: 12px 0 24px;
+}
+
+.flow-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.flow-desc {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th, td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: rgba(99,102,241,0.08);
+  font-weight: 600;
+  color: var(--accent-light);
+}
+
+.tip {
+  background: rgba(52,211,153,0.08);
+  border-left: 3px solid var(--green);
+  padding: 14px 18px;
+  border-radius: 0 8px 8px 0;
+  margin: 16px 0;
+  font-size: 0.92rem;
+}
+
+.warning {
+  background: rgba(251,146,60,0.08);
+  border-left: 3px solid var(--orange);
+  padding: 14px 18px;
+  border-radius: 0 8px 8px 0;
+  margin: 16px 0;
+  font-size: 0.92rem;
+}
+
+.section-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.toc {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 32px 0;
+}
+
+.toc-title {
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--accent-light);
+}
+
+.toc a {
+  display: block;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 6px 0;
+  font-size: 0.92rem;
+  transition: color 0.2s;
+}
+
+.toc a:hover { color: var(--accent-light); }
+
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--border);
+  border: none;
+  color: var(--text-dim);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.pre-wrapper {
+  position: relative;
+}
+
+.pre-wrapper:hover .copy-btn { opacity: 1; }
+.copy-btn:hover { background: var(--accent); color: white; }
+
+.chat-example {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.chat-msg {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.chat-msg:last-child { margin-bottom: 0; }
+
+.chat-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.chat-user .chat-avatar { background: var(--accent); color: white; }
+.chat-ai .chat-avatar { background: var(--green); color: #0f1117; }
+
+.chat-bubble {
+  background: #12141c;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  max-width: 85%;
+}
+
+.chat-user .chat-bubble { background: rgba(99,102,241,0.12); }
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15,17,23,0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+nav .logo {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--accent-light);
+}
+
+nav .nav-links {
+  display: flex;
+  gap: 20px;
+  font-size: 0.85rem;
+}
+
+nav .nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+nav .nav-links a:hover { color: var(--text); }
+
+.hero { padding-top: 60px; }
+
+@media (max-width: 640px) {
+  .container { padding: 24px 16px 60px; }
+  h1 { font-size: 1.6rem; }
+  h2 { font-size: 1.25rem; }
+  pre { font-size: 0.8rem; padding: 12px; }
+  nav .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">ai-skill · 历史归档，请勿照做</span>
+  <div class="nav-links">
+    <a href="#setup">配置</a>
+    <a href="#workflow">工作流</a>
+    <a href="#grill">Grill 技能</a>
+    <a href="#search">Smart Search</a>
+    <a href="#examples">实例</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<div class="hero">
+<h1>历史归档：工作流使用指南</h1>
+<p class="subtitle">一套规则，多 IDE 复用。从配置到日常使用的完整教程。</p>
+</div>
+
+<div class="warning" role="note"><strong>2026-10-12 归档：本页为旧版设计记录，不是当前操作指南，请勿执行下文旧升级步骤。</strong>
+<p>当前接入与能力说明以 <a href="../README.md">README</a> 为准，跨项目升级须遵守 <a href="library-release.md">稳定版本验收与分发门禁</a>，重新初始化不能绕过。下文“Codex 不支持 MCP”的说法已失效；当前按实际运行环境核实工具能力。需求明确且已授权时直接执行，不因新功能、中等复杂度或“能不能”句式强制进入访谈。</p>
+<p>项目知识与冻结区保存在 <code>.ai-skill/project/</code>，框架副本位于 <code>.ai-skill/framework/</code>；后续正文仅供历史追溯。</p></div>
+
+<div class="toc">
+  <div class="toc-title">目录</div>
+  <a href="#setup">1. 如何配置 — 一条命令复制到任意项目</a>
+  <a href="#ide-specific">2. 各 IDE 的配置细节</a>
+  <a href="#workflow">3. 四阶段工作流怎么用</a>
+  <a href="#grill">4. /grill 需求拷问技能详解</a>
+  <a href="#search">5. 先搜再改 + Smart Search 使用方法</a>
+  <a href="#examples">6. 完整使用实例</a>
+</div>
+
+<!-- ============================================ -->
+<h2 id="setup"><span class="section-num">1</span>如何配置 — 一条命令复制到任意项目</h2>
+
+<h3>前提条件</h3>
+<p>确保你的 ai-skill 仓库在固定位置（以下示例假设路径为 <code>/path/to/ai-skill</code>，请替换成你的实际路径）。</p>
+
+<h3>一键初始化（推荐）</h3>
+<p>在你想启用 ai-skill 的项目目录中运行：</p>
+
+<div class="pre-wrapper">
+<button class="copy-btn" onclick="copyCode(this)">复制</button>
+<pre><code><span class="comment"># 初始化当前目录（生成所有 IDE 的配置文件）</span>
+<span class="cmd">python</span> <span class="path">"/path/to/ai-skill/scripts/init-project.py"</span> <span class="flag">--path</span> .
+</code></pre>
+</div>
+
+<p>这条命令会在项目根目录生成以下文件：</p>
+
+<div class="table-wrapper">
+<table>
+<tr><th>生成的文件</th><th>谁读它</th><th>加载方式</th></tr>
+<tr><td><code>RULES.md</code></td><td>所有 AI 工具通用</td><td>手动告知 / 被其他文件引用</td></tr>
+<tr><td><code>CLAUDE.md</code></td><td>Claude Code</td><td>自动加载</td></tr>
+<tr><td><code>.cursorrules</code></td><td>Cursor</td><td>自动加载</td></tr>
+<tr><td><code>AGENTS.md</code></td><td>OpenAI Codex</td><td>自动加载</td></tr>
+<tr><td><code>.windsurf/rules/ai-skill.md</code></td><td>Windsurf</td><td>自动加载</td></tr>
+<tr><td><code>.github/copilot-instructions.md</code></td><td>GitHub Copilot</td><td>自动加载</td></tr>
+<tr><td><code>.kiro/rules/ai-skill.md</code></td><td>Kiro</td><td>自动加载</td></tr>
+<tr><td><code>GEMINI.md</code></td><td>Gemini Code Assist</td><td>自动加载</td></tr>
+</table>
+</div>
+
+<h3>只初始化特定 IDE</h3>
+
+<div class="pre-wrapper">
+<button class="copy-btn" onclick="copyCode(this)">复制</button>
+<pre><code><span class="comment"># 只为 Cursor 生成配置</span>
+<span class="cmd">python</span> <span class="path">"/path/to/ai-skill/scripts/init-project.py"</span> <span class="flag">--path</span> . <span class="flag">--ide</span> <span class="string">cursor</span>
+
+<span class="comment"># 只为 Claude Code 生成配置</span>
+<span class="cmd">python</span> <span class="path">"/path/to/ai-skill/scripts/init-project.py"</span> <span class="flag">--path</span> . <span class="flag">--ide</span> <span class="string">claude-code</span>
+
+<span class="comment"># 只为 Codex 生成配置</span>
+<span class="cmd">python</span> <span class="path">"/path/to/ai-skill/scripts/init-project.py"</span> <span class="flag">--path</span> . <span class="flag">--ide</span> <span class="string">codex</span>
+
+<span class="comment"># 可选值: cursor | claude-code | codex | windsurf | copilot | kiro | gemini | all</span>
+</code></pre>
+</div>
+
+<h3>规则更新后同步</h3>
+<p>当你修改了 ai-skill 仓库里的规则（比如加了新 instinct），对项目重新跑一次 init 即可同步：</p>
+
+<div class="pre-wrapper">
+<button class="copy-btn" onclick="copyCode(this)">复制</button>
+<pre><code><span class="comment"># 在项目目录下，重新初始化 = 同步最新规则</span>
+<span class="cmd">python</span> <span class="path">"/path/to/ai-skill/scripts/init-project.py"</span> <span class="flag">--path</span> .
+</code></pre>
+</div>
+
+<div class="tip">
+  <strong>Tip：</strong>建议把 init 命令加入你的项目初始化脚本或 Makefile，这样 clone 后一键就位。
+</div>
+
+<!-- ============================================ -->
+<h2 id="ide-specific"><span class="section-num">2</span>各 IDE 的配置细节</h2>
+
+<h3>Cursor</h3>
+<div class="card">
+  <div class="card-title"><span class="badge badge-green">零配置</span> 初始化后即生效</div>
+  <p>Cursor 自动读取项目根目录的 <code>.cursorrules</code>，里面已包含完整的 RULES.md 内容。</p>
+  <p>MCP 工具（ACE、smart-search-cli）在 <strong>Cursor Settings → MCP</strong> 中单独配置：</p>
+<pre><code><span class="comment">// Cursor Settings → MCP → 添加 Server</span>
+{
+  "mcpServers": {
+    "ace": {
+      "command": "ace-mcp",
+      "args": ["--workspace", "."]
+    },
+    "smart-search": {
+      "command": "smart-search-cli",
+      "args": ["mcp"]
+    }
+  }
+}</code></pre>
+</div>
+
+<h3>Claude Code</h3>
+<div class="card">
+  <div class="card-title"><span class="badge badge-purple">自动 + Hooks</span> 推荐配置 hooks 增强</div>
+  <p>Claude Code 自动读取 <code>CLAUDE.md</code>。推荐额外配置 hooks：</p>
+<pre><code><span class="comment"># 在项目根目录</span>
+<span class="cmd">mkdir</span> .claude
+<span class="cmd">copy</span> <span class="path">"/path/to/ai-skill\hooks\claude-code\settings.json"</span> <span class="path">".claude\settings.json"</span></code></pre>
+  <p>hooks 会在你每次编辑文件时自动提醒检查冻结区和自检清单。</p>
+</div>
+
+<h3>OpenAI Codex</h3>
+<div class="card">
+  <div class="card-title"><span class="badge badge-blue">零配置</span> AGENTS.md 自动生效</div>
+  <p>Codex 自动读取项目根目录的 <code>AGENTS.md</code>。规则和工作流完全生效。</p>
+  <p>Codex 目前不支持 MCP，搜索能力受限于其内置工具。但 /grill、/plan、/finish 的工作流指令依然有效。</p>
+</div>
+
+<div class="warning">
+  <strong>注意：</strong>各 IDE 的 MCP 工具配置互相独立。ai-skill 只管规则层，MCP 工具需要在各 IDE 中单独安装和配置。
+</div>
+
+<!-- ============================================ -->
+<h2 id="workflow"><span class="section-num">3</span>四阶段工作流怎么用</h2>
+
+<div class="flow-diagram">
+  <div class="flow-step">
+    <div class="flow-line">
+      <div class="flow-dot" style="background: var(--orange)"></div>
+      <div class="flow-connector"></div>
+    </div>
+    <div class="flow-content">
+      <div class="flow-label">Phase 0: /grill — 拷问需求</div>
+      <div class="flow-desc">把模糊想法问清楚。AI 一次一个问题拷问你，产出结构化的需求共识。<br>适用于：需求不够具体、新功能、你说"大概想做一个..."时。</div>
+    </div>
+  </div>
+  <div class="flow-step">
+    <div class="flow-line">
+      <div class="flow-dot" style="background: var(--blue)"></div>
+      <div class="flow-connector"></div>
+    </div>
+    <div class="flow-content">
+      <div class="flow-label">Phase 1: /plan — 规划步骤</div>
+      <div class="flow-desc">把需求拆成可验证的步骤。每步带验证方式 + 风险评估。<br>适用于：多文件改动、涉及公共接口、需要分步实施时。</div>
+    </div>
+  </div>
+  <div class="flow-step">
+    <div class="flow-line">
+      <div class="flow-dot" style="background: var(--green)"></div>
+      <div class="flow-connector"></div>
+    </div>
+    <div class="flow-content">
+      <div class="flow-label">Phase 2: 执行</div>
+      <div class="flow-desc">AI 按计划编码。期间 instincts 自动生效：先搜再改、大改动前确认、匹配已有风格。<br>你只需要确认 AI 的提问和阶段性结果。</div>
+    </div>
+  </div>
+  <div class="flow-step">
+    <div class="flow-line">
+      <div class="flow-dot" style="background: var(--purple)"></div>
+      <div class="flow-connector" style="background: transparent;"></div>
+    </div>
+    <div class="flow-content">
+      <div class="flow-label">Phase 3: /finish — 收尾闭环</div>
+      <div class="flow-desc">自检清单 → 跑测试验证 → 交付总结（改了什么、验证了什么、剩余风险）→ 进化判断。<br>确保每次任务有完整闭环，不遗留问题。</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">什么时候跳过阶段？</div>
+  <div class="table-wrapper">
+  <table>
+  <tr><th>任务复杂度</th><th>建议流程</th><th>示例</th></tr>
+  <tr><td>简单（&lt;5 min）</td><td>直接执行</td><td>"把这个变量名改一下"</td></tr>
+  <tr><td>中等</td><td>/grill → 执行 → /finish</td><td>"加一个缓存层"</td></tr>
+  <tr><td>复杂</td><td>/grill → /plan → 执行 → /finish</td><td>"迁移到 GraphQL"</td></tr>
+  <tr><td>高风险</td><td>/grill → /plan → /review → 执行 → /finish</td><td>"重构认证模块"</td></tr>
+  </table>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<h2 id="grill"><span class="section-num">4</span>/grill 需求拷问技能详解</h2>
+
+<h3>什么时候用</h3>
+<p>当你发现自己在说这类话的时候：</p>
+<ul style="margin: 12px 0 20px 20px; color: var(--text-dim);">
+  <li>"大概想做一个..."</li>
+  <li>"能不能实现..."</li>
+  <li>"帮我搞一下..."</li>
+  <li>"我想加一个功能但还没想清楚细节"</li>
+</ul>
+
+<h3>怎么触发</h3>
+<div class="pre-wrapper">
+<pre><code><span class="comment"># 方式一：直接说 /grill</span>
+/grill 我想给项目加一个 webhook 通知系统
+
+<span class="comment"># 方式二：AI 自动识别（RULES.md 的自动路由）</span>
+<span class="comment"># 当你说"大概想做..."这类模糊描述时，AI 会自动进入拷问模式</span>
+我想加一个 webhook，但不确定具体怎么设计</code></pre>
+</div>
+
+<h3>对话示例</h3>
+
+<div class="chat-example">
+  <div class="chat-msg chat-user">
+    <div class="chat-avatar">你</div>
+    <div class="chat-bubble">/grill 我想给项目加一个插件系统</div>
+  </div>
+  <div class="chat-msg chat-ai">
+    <div class="chat-avatar">AI</div>
+    <div class="chat-bubble">
+      我理解你想让项目支持第三方扩展。初始假设：这是一个运行时的插件加载机制，不是编译时的。<br><br>
+      <strong>第一个问题：插件需要在什么时机加载？</strong><br>
+      - A. 应用启动时一次性加载（推荐，简单）<br>
+      - B. 运行时动态加载/卸载<br>
+      - C. 两者都需要<br><br>
+      我推荐 A，除非你有热插拔的硬需求。
+    </div>
+  </div>
+  <div class="chat-msg chat-user">
+    <div class="chat-avatar">你</div>
+    <div class="chat-bubble">A，启动时加载就行</div>
+  </div>
+  <div class="chat-msg chat-ai">
+    <div class="chat-avatar">AI</div>
+    <div class="chat-bubble">
+      <strong>第二个问题：插件能做什么？</strong><br>
+      - A. 只能注册新的命令/功能<br>
+      - B. 可以 hook 到现有流程（比如 before/after 某个操作）<br>
+      - C. 完全自由访问内部 API<br><br>
+      我推荐 B，平衡灵活性和安全性。
+    </div>
+  </div>
+  <div class="chat-msg chat-ai">
+    <div class="chat-avatar">AI</div>
+    <div class="chat-bubble" style="margin-top: -8px;">
+      <em>...（继续提问：插件格式、发现机制、错误隔离、API 边界...）</em><br><br>
+      最终产出：
+<pre style="margin: 8px 0 0; background: rgba(0,0,0,0.3); border: none; font-size: 0.82rem;">## 需求共识
+
+**目标**：启动时加载本地插件，通过 hook 机制扩展已有流程
+**必须做**：
+- 插件发现（扫描 plugins/ 目录）
+- 生命周期 hooks（before/after 5 个核心操作）
+- 插件隔离（一个插件报错不影响其他）
+**不做**：
+- 热插拔、远程加载、插件市场
+**验收标准**：
+- 写一个示例插件，注册到 before_save hook，能正常触发</pre>
+    </div>
+  </div>
+</div>
+
+<h3>拷问的五个维度</h3>
+<div class="card">
+  <div class="table-wrapper">
+  <table>
+  <tr><th>维度</th><th>核心问题</th><th>目的</th></tr>
+  <tr><td>功能边界</td><td>最小可用版本是什么？不做什么？</td><td>防止范围蔓延</td></tr>
+  <tr><td>用户/场景</td><td>谁用？什么输入？期望什么输出？</td><td>明确上下文</td></tr>
+  <tr><td>技术约束</td><td>必须用/不能用什么？性能要求？</td><td>缩小方案空间</td></tr>
+  <tr><td>已有代码</td><td>有没有可复用的？会影响什么？</td><td>避免重复造轮子</td></tr>
+  <tr><td>验收标准</td><td>怎么算做完？需要什么测试？</td><td>定义成功</td></tr>
+  </table>
+  </div>
+</div>
+
+<div class="tip">
+  <strong>与 Trellis 的配合：</strong><code>/grill</code> 的产出（需求共识）可以直接作为 Trellis brainstorm 的输入。如果你用 Trellis 0.6.0-beta.21+，<code>trellis-brainstorm</code> 已融合了 grill-me 行为，可以直接用它替代。
+</div>
+
+<!-- ============================================ -->
+<h2 id="search"><span class="section-num">5</span>先搜再改 + Smart Search 使用方法</h2>
+
+<h3>instinct: search-before-code（自动生效）</h3>
+<p>这是一个 Always-On 的行为本能，AI 在动手写代码之前会自动判断需要什么信息，然后选择正确的搜索方式。你不需要告诉它——它自动做。</p>
+
+<div class="card">
+  <div class="card-title">信息源路由规则</div>
+  <div class="table-wrapper">
+  <table>
+  <tr><th>需要什么</th><th>用什么搜</th><th>典型场景</th></tr>
+  <tr>
+    <td>明确符号<br><span style="color:var(--text-dim);font-size:0.8rem;">函数名、类名、变量名</span></td>
+    <td><code>grep / glob</code><br><span class="badge badge-green">精确匹配</span></td>
+    <td>找 <code>handleSubmit</code> 在哪定义的</td>
+  </tr>
+  <tr>
+    <td>语义理解<br><span style="color:var(--text-dim);font-size:0.8rem;">相关模块、调用链、复用</span></td>
+    <td><code>ACE</code> 或同类工具<br><span class="badge badge-blue">代码库级</span></td>
+    <td>"支付相关的代码在哪几个模块？"</td>
+  </tr>
+  <tr>
+    <td>外部资料<br><span style="color:var(--text-dim);font-size:0.8rem;">库文档、API、最佳实践</span></td>
+    <td><code>smart-search-cli</code><br><span class="badge badge-orange">外部搜索</span></td>
+    <td>"Prisma 5.x 怎么做 batch upsert？"</td>
+  </tr>
+  </table>
+  </div>
+</div>
+
+<h3>smart-search-cli 怎么配置</h3>
+
+<div class="pre-wrapper">
+<button class="copy-btn" onclick="copyCode(this)">复制</button>
+<pre><code><span class="comment"># 1. 安装（如果还没装）</span>
+<span class="cmd">npm</span> install -g smart-search-cli
+
+<span class="comment"># 2. 在 Cursor 中配置 MCP</span>
+<span class="comment"># Settings → MCP → 添加：</span>
+{
+  "mcpServers": {
+    "smart-search": {
+      "command": "smart-search-cli",
+      "args": ["mcp"]
+    }
+  }
+}
+
+<span class="comment"># 3. 在 Claude Code 中配置 MCP</span>
+<span class="comment"># .claude/settings.json 或全局 settings 中添加：</span>
+{
+  "mcpServers": {
+    "smart-search": {
+      "command": "smart-search-cli",
+      "args": ["mcp"]
+    }
+  }
+}</code></pre>
+</div>
+
+<h3>smart-search 使用场景</h3>
+
+<div class="chat-example">
+  <div class="chat-msg chat-user">
+    <div class="chat-avatar">你</div>
+    <div class="chat-bubble">帮我用 Bun 的 SQLite 驱动实现连接池</div>
+  </div>
+  <div class="chat-msg chat-ai">
+    <div class="chat-avatar">AI</div>
+    <div class="chat-bubble">
+      <em>[instinct "先搜再改" 触发]</em><br><br>
+      1. 先搜项目里有没有已有的数据库连接代码...<br>
+      <code>→ grep "sqlite" / ACE 查数据库模块</code><br><br>
+      2. Bun 的 SQLite 驱动是否支持连接池是外部问题...<br>
+      <code>→ smart-search "bun sqlite connection pool 2024"</code><br><br>
+      3. 搜索结果：Bun 内置的 bun:sqlite 是同步的、单连接的，不需要也不支持传统连接池。但可以用 worker 做并发。<br><br>
+      基于这个信息，我建议的方案是...
+    </div>
+  </div>
+</div>
+
+<h3>什么时候 AI 会自动用 smart-search？</h3>
+<ul style="margin: 12px 0 20px 20px;">
+  <li>涉及第三方库的具体 API 用法（尤其是新版本）</li>
+  <li>需要确认当前最佳实践（不确定自己的知识是否过时）</li>
+  <li>用户提到了一个它不熟悉的技术/工具</li>
+  <li>技术选型比较（A 和 B 哪个更适合）</li>
+</ul>
+
+<div class="warning">
+  <strong>Codex 用户注意：</strong>Codex 目前不支持 MCP，所以 smart-search 和 ACE 不可用。AI 会依赖自身知识 + Codex 内置搜索。规则中的 "先搜再改" instinct 会退化为用 grep/glob 做基础搜索。
+</div>
+
+<!-- ============================================ -->
+<h2 id="examples"><span class="section-num">6</span>完整使用实例</h2>
+
+<h3>实例：给项目加一个 Rate Limiter</h3>
+
+<div class="card">
+<div class="card-title"><span class="badge badge-orange">Phase 0</span> /grill</div>
+<pre><code><span class="comment">你：</span>/grill 我想给 API 加限流
+
+<span class="comment">AI 拷问（约 8 个问题）：</span>
+- 限流粒度？→ 每个用户（by API key）
+- 限流窗口？→ 滑动窗口，1 分钟
+- 限流阈值？→ 60 次/分钟，可配置
+- 超限响应？→ 429 + Retry-After header
+- 存储？→ Redis（已有实例）
+- 要不要区分 endpoint？→ 不用，统一限制
+- 白名单？→ 内部服务 IP 跳过
+- 已有中间件？→ 有 Express middleware 架子
+
+<span class="comment">产出：</span>需求共识文档</code></pre>
+</div>
+
+<div class="card">
+<div class="card-title"><span class="badge badge-blue">Phase 1</span> /plan</div>
+<pre><code><span class="comment">AI 规划：</span>
+1. 创建 src/middleware/rate-limiter.ts
+   → 验证: 单元测试覆盖正常/超限/白名单场景
+2. 在 src/app.ts 注册中间件
+   → 验证: curl 连续请求 61 次，第 61 次返回 429
+3. 添加配置项到 config/default.ts
+   → 验证: 修改配置后限流阈值生效
+
+<span class="comment">风险：</span>需要确认 Redis 连接是否已在 app 初始化时建立</code></pre>
+</div>
+
+<div class="card">
+<div class="card-title"><span class="badge badge-green">Phase 2</span> 执行</div>
+<pre><code><span class="comment">AI 自动行为：</span>
+[search-before-code] 先搜项目已有的 middleware 写法 → 发现统一用 class 形式
+[search-before-code] 搜 Redis client 在哪初始化 → src/lib/redis.ts 已有单例
+[match-existing-style] 匹配已有 middleware 的 constructor 注入模式
+[ask-before-big-change] 要改 app.ts 注册链 → 告知用户具体改动
+
+<span class="comment">然后开始写代码...</span></code></pre>
+</div>
+
+<div class="card">
+<div class="card-title"><span class="badge badge-purple">Phase 3</span> /finish</div>
+<pre><code><span class="comment">AI 输出：</span>
+## 完成总结
+
+**改了什么**：
+- src/middleware/rate-limiter.ts — 新增滑动窗口限流中间件
+- src/app.ts (L23) — 注册 RateLimiter 中间件
+- config/default.ts (L41-44) — 新增 rateLimit 配置段
+- tests/rate-limiter.test.ts — 3 个测试用例
+
+**验证了什么**：
+- [x] 单元测试 3/3 通过
+- [x] 手动 curl 验证 429 + Retry-After
+
+**剩余风险**：
+- Redis 断连时的降级策略未实现（当前会 500）
+
+**进化判断**：
+- 建议记录 recipe: "Express + Redis 滑动窗口限流标准实现"</code></pre>
+</div>
+
+<h3>快捷参考卡片</h3>
+
+<div class="card" style="background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(167,139,250,0.08));">
+<pre style="border: none; background: transparent; margin: 0;"><code><span class="comment"># 日常速查</span>
+
+<span class="comment"># 初始化新项目</span>
+<span class="cmd">python</span> <span class="path">"/path/to/ai-skill/scripts/init-project.py"</span> <span class="flag">--path</span> <span class="string">"C:\Projects\my-new-project"</span>
+
+<span class="comment"># 同步规则更新到已有项目</span>
+<span class="cmd">python</span> <span class="path">"/path/to/ai-skill/scripts/init-project.py"</span> <span class="flag">--path</span> <span class="string">"C:\Projects\my-existing-project"</span>
+
+<span class="comment"># 在 AI 对话中使用工作流命令</span>
+/grill 我想做...        <span class="comment">← 需求不清时</span>
+/plan                   <span class="comment">← 任务复杂需要规划时</span>
+/review                 <span class="comment">← 需要审查代码时</span>
+/finish                 <span class="comment">← 任务完成时收尾</span>
+/learn                  <span class="comment">← 让 AI 学习当前项目约定</span>
+
+<span class="comment"># 斜杠命令只是触发词，不是必须的</span>
+<span class="comment"># AI 会根据你的话自动判断该走哪个流程</span></code></pre>
+</div>
+
+</div>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.parentElement.querySelector('pre');
+  const text = pre.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '已复制';
+    setTimeout(() => { btn.textContent = '复制'; }, 2000);
+  });
+}
+</script>
+</body>
+</html>

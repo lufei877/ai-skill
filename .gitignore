@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.playwright-cli/
+
+# Local editor and OS files
+.DS_Store
+Thumbs.db
+
+# Accidental empty scratch file
+新建 文本文档.txt

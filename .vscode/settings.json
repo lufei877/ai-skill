@@ -1,0 +1,4 @@
+{
+  "ai-skill.rules": "RULES.md",
+  "ai-skill.extended-skills": "/path/to/ai-skill\\skills"
+}

@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "purpose": "从现有 RULES.md 提取可定位的核心锚点。字面保留不证明语义不退化，晋升还需要逐项独立评审及行为运行证据。",
+  "invariants": [
+    {"id": "evidence-first", "path": "RULES.md", "required": "不把推测写成事实。"},
+    {"id": "simplicity", "path": "RULES.md", "required": "最少代码解决问题。不加没要求的功能。"},
+    {"id": "scope", "path": "RULES.md", "required": "每行改动必须追溯到我的请求。"},
+    {"id": "verification", "path": "RULES.md", "required": "修 bug → 先写复现测试。加功能 → 先定义完成标准。"},
+    {"id": "knowledge-evidence", "path": "RULES.md", "required": "只有根因和修复都验证后才记录坑位；未完成任务和猜测不沉淀。"},
+    {"id": "authorization", "path": "RULES.md", "required": "已有明确授权在本次任务内持续有效，不在后续步骤重复索取。"},
+    {"id": "existing-stack", "path": "RULES.md", "required": "不为套用 Skill 迁移技术栈或引入依赖。"},
+    {"id": "proportional-checks", "path": "RULES.md", "required": "低影响文案或样式修改不为形式新增测试，必要检查通过后不无故重复全量验证。"}
+  ]
+}

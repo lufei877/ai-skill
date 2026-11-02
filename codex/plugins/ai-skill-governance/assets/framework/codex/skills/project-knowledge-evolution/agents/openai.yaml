@@ -1,0 +1,7 @@
+interface:
+  display_name: "Project Knowledge Evolution"
+  short_description: "Distill verified bugs, fixes, workflows, decisions, and preferences"
+  default_prompt: "Use $project-knowledge-evolution to distill verified lessons from this project task."
+
+policy:
+  allow_implicit_invocation: true
